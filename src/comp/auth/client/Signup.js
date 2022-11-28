@@ -16,6 +16,7 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import moment from 'moment/moment';
 import { useFormik } from 'formik';
 import * as yup from "yup";
+import GoogleLogin from 'react-google-login';
 
 const theme = createTheme();
 
@@ -120,6 +121,9 @@ export default function Signup() {
 
 
   })
+  const responseGoogle = (response) => {
+    console.log(response);
+  }
 
   // const handleSubmit = (event) => {
   //   event.preventDefault();
@@ -332,6 +336,13 @@ export default function Signup() {
               >
                 Sign Up
               </Button>
+              <GoogleLogin
+                clientId="109524746643-mf2lf4u0s5a8vbtdl8d2ffbp41aa9b19.apps.googleusercontent.com"
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'}
+              />,
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/loginClient">
