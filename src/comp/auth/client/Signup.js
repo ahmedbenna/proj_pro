@@ -54,6 +54,19 @@ export default function Signup() {
       }
     }
 
+  //   getSpeciality = () => {
+  //     axios
+  //         .get("http://localhost:8088/speciality/getAllSpeciality")
+  //         .then(data => {
+  //             this.setState({ specialitys: data.data })
+  //             console.log(data)
+  //         })
+  //         .catch(err => {
+  //             console.log(err);
+  //             return null;
+  //         });
+  // };
+
 
 
 
@@ -109,6 +122,7 @@ export default function Signup() {
         lastName: values.lastName,
         phone: values.phone,
         street: values.street,
+        birthday: values.birthday,
         city:
         {
           idCity: values.city
@@ -342,7 +356,7 @@ export default function Signup() {
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
-              />,
+              />
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/loginClient">
