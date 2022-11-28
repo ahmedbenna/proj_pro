@@ -860,7 +860,7 @@ export default function Index() {
             <script src="assets/lib/slick/slick.min.js"></script>
 
             {/* <!-- Template Javascript --> */}
-            <script src="js/main.js"></script>
+            <script src="assets/js/main.js"></script>
         </>
     )
 }
