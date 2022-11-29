@@ -9,6 +9,8 @@ function App() {
     <div >
   
       <BrowserRouter>
+      <NavGuest />
+
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/loginClient' element={<Login/>}/>
