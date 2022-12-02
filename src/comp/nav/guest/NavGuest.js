@@ -80,23 +80,37 @@ export default function NavGuest() {
             <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
               <div className="navbar-nav mr-auto">
                 <Link to="/">
-                  <a  className="nav-item nav-link active">Home</a>
+                  <a className="nav-item nav-link active">Home</a>
                 </Link>
-                <a href="about.html" className="nav-item nav-link">About</a>
-                <a href="service.html" className="nav-item nav-link">Service</a>
-                <a href="team.html" className="nav-item nav-link">Team</a>
-                <a href="portfolio.html" className="nav-item nav-link">Project</a>
+                <Link to="/about">
+                  <a className="nav-item nav-link">About</a>
+                </Link>
+                <Link to="/services">
+                  <a className="nav-item nav-link">Service</a>
+                </Link>
+                <Link to="/team">
+                  <a className="nav-item nav-link">Team</a>
+                </Link>
+                {/* <Link to="/about"> */}
+                  <a className="nav-item nav-link">Project</a>
+                {/* </Link> */}
                 <div className="nav-item dropdown">
                   <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                   <div className="dropdown-menu">
-                    <a href="blog.html" className="dropdown-item">Blog Page</a>
-                    <a href="single.html" className="dropdown-item">Single Page</a>
+                    <Link to="/blog">
+                      <a className="dropdown-item">Blog Page</a>
+                    </Link>
+                    <Link to="/single">
+                      <a  className="dropdown-item">Single Page</a>
+                    </Link>
                   </div>
                 </div>
-                <a href="contact.html" className="nav-item nav-link">Contact</a>
+                <Link to="/contact">
+                  <a  className="nav-item nav-link">Contact</a>
+                </Link>
               </div>
               <div className="ml-auto">
-                <Link>
+                <Link to="/signUpClient">
                   <button className="btn">SignUp</button>
                 </Link>
               </div>
