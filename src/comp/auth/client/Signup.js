@@ -54,18 +54,18 @@ export default function Signup() {
       }
     }
 
-  //   getSpeciality = () => {
-  //     axios
-  //         .get("http://localhost:8088/speciality/getAllSpeciality")
-  //         .then(data => {
-  //             this.setState({ specialitys: data.data })
-  //             console.log(data)
-  //         })
-  //         .catch(err => {
-  //             console.log(err);
-  //             return null;
-  //         });
-  // };
+    //   getSpeciality = () => {
+    //     axios
+    //         .get("http://localhost:8088/speciality/getAllSpeciality")
+    //         .then(data => {
+    //             this.setState({ specialitys: data.data })
+    //             console.log(data)
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //             return null;
+    //         });
+    // };
 
 
 
@@ -357,10 +357,15 @@ export default function Signup() {
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
               />
-              <Grid container justifyContent="flex-end">
-                <Grid item>
+              <Grid container >
+                <Grid item xs={12} justifyItems='flex-end'>
                   <Link to="/loginClient">
                     Already have an account? Sign in
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to="/signupProvider">
+                    You are a provider? Sign UP!
                   </Link>
                 </Grid>
               </Grid>

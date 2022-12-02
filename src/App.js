@@ -13,6 +13,8 @@ import Services from './pages/Services';
 import Protfolio from './pages/Protfolio';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
+import LoginProvider from './comp/auth/provider/LoginProvider';
+import SignupProvider from './comp/auth/provider/SignupProvider';
 function App() {
   return (
     <div >
@@ -24,6 +26,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/loginClient' element={<Login />} />
           <Route path='/signupClient' element={<Signup />} />
+          <Route path='/loginProvider' element={<LoginProvider />} />
+          <Route path='/signupProvider' element={<SignupProvider />} />
           <Route path='/searchResult' element={<SearchResult />} />
           <Route path='/about' element={<About />} />
           <Route path='/single' element={<Single />} />
