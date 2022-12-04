@@ -31,6 +31,7 @@ export default function Signup() {
     try {
       const response = await axios.post('http://localhost:8088/client/signup', formData);
       console.log(response);
+      window.location.reload(false)
     } catch (error) {
       console.error(error);
     }

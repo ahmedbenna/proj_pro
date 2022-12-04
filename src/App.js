@@ -15,12 +15,14 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import LoginProvider from './comp/auth/provider/LoginProvider';
 import SignupProvider from './comp/auth/provider/SignupProvider';
+import ProfileClient from './pages/ProfileClient';
+import NavClient from './comp/nav/client/NavClient';
 function App() {
   return (
     <div >
 
       <BrowserRouter>
-        <NavGuest />
+        <NavClient />
 
         <Routes>
           <Route path='/' element={<Home />} />
@@ -36,6 +38,7 @@ function App() {
           <Route path='/protfolio' element={<Protfolio />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/blog' element={<Blog />} />
+          <Route path='/profileClient' element={<ProfileClient />} />
         </Routes>
         <Footer />
 
