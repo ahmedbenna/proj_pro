@@ -19,7 +19,7 @@ const idp = JSON.parse(localStorage.getItem('idp'))
 
 
 
-export default function NavClient() {
+export default function NavProvider() {
 
     const [isLoading, setLoading] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);

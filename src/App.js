@@ -1,5 +1,4 @@
 import './App.css';
-import NavGuest from './comp/nav/guest/NavGuest';
 import Login from './comp/auth/client/Login.js'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './comp/Home/Home.js'
@@ -16,14 +15,14 @@ import Blog from './pages/Blog';
 import LoginProvider from './comp/auth/provider/LoginProvider';
 import SignupProvider from './comp/auth/provider/SignupProvider';
 import ProfileClient from './pages/ProfileClient';
-import NavClient from './comp/nav/client/NavClient';
+import Nav from './comp/nav/Nav';
+import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 function App() {
   return (
     <div >
 
       <BrowserRouter>
-        <NavClient />
-
+        <Nav />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/loginClient' element={<Login />} />
@@ -39,6 +38,8 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/blog' element={<Blog />} />
           <Route path='/profileClient' element={<ProfileClient />} />
+          <ClientProtectedRoute path='/profileClient' element={<ProfileClient />} isAuth={localStorage.getItem('idc')} />
+
         </Routes>
         <Footer />
 
