@@ -14,12 +14,12 @@ import axios from 'axios';
 
 
 
-localStorage.setItem('idc', JSON.stringify({ "id": "1" }))
-const idc = JSON.parse(localStorage.getItem('idc'))
-
-
 
 export default function NavClient() {
+    // localStorage.setItem('idc', JSON.stringify({ "id": "1" }))
+    let idc = JSON.parse(localStorage.getItem('idc'))
+    console.log(idc.id)
+
 
     const [isLoading, setLoading] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,17 +34,18 @@ export default function NavClient() {
     };
 
     const handleSignOut = () => {
+        localStorage.removeItem('idc')
+        localStorage.removeItem('token')
         setAnchorEl(null);
         window.location = '/'
-        localStorage.removeItem('idc')
-        // localStorage.removeItem('token')
+        
     }
 
     useEffect(() => {
         async function getClient() {
             try {
 
-                const res = await axios.get('http://localhost:8088/client/getClient/' + { idc });
+                const res = await axios.get('http://localhost:8088/client/getClient/'+idc.id);
                 console.log(res);
                 setClient(res.data);
                 setLoading(false);
@@ -57,7 +58,7 @@ export default function NavClient() {
         getClient();
     }, [isLoading]);
 
-    
+
     if (isLoading) {
 
         return <div className="App"><CircularProgress /></div>;
@@ -142,7 +143,7 @@ export default function NavClient() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <Link to='clientProfile'>
+                            <Link to='/profileClient'>
                                 <MenuItem onClick={handleClose}>Profile</MenuItem>
 
                             </Link>

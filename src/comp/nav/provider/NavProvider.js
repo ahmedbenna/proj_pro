@@ -14,7 +14,7 @@ import axios from 'axios';
 
 
 
-localStorage.setItem('idp', JSON.stringify({ "id": "1" }))
+// localStorage.setItem('idp', JSON.stringify({ "id": "1" }))
 const idp = JSON.parse(localStorage.getItem('idp'))
 
 
@@ -44,7 +44,7 @@ export default function NavProvider() {
         async function getClient() {
             try {
 
-                const res = await axios.get('http://localhost:8088/client/getClient/' + { idp });
+                const res = await axios.get('http://localhost:8088/provideer/getProvider/'+idp.id);
                 console.log(res);
                 setClient(res.data);
                 setLoading(false);

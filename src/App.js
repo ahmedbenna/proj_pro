@@ -37,9 +37,10 @@ function App() {
           <Route path='/protfolio' element={<Protfolio />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/blog' element={<Blog />} />
-          <Route path='/profileClient' element={<ProfileClient />} />
-          <ClientProtectedRoute path='/profileClient' element={<ProfileClient />} isAuth={localStorage.getItem('idc')} />
-
+          
+          <Route element={<ClientProtectedRoute/>}>
+            <Route path='/profileClient' element={<ProfileClient />} />
+          </Route>
         </Routes>
         <Footer />
 
