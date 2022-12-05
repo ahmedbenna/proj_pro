@@ -5,7 +5,6 @@ export default function ClientProtectedRoute() {
     let auth = { 'token': JSON.parse(localStorage.getItem('token')), 'idc': JSON.parse(localStorage.getItem('idc')) }
     return (
          auth.idc ? <Outlet /> : <Navigate to='/loginClient' />
-
         // auth.token && auth.idc ? <Outlet /> : <Navigate to='/loginClient' />
     )
 }

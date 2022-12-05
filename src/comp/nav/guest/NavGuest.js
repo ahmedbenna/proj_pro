@@ -70,7 +70,7 @@ export default function NavGuest() {
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
             {/* <a href="#" className="navbar-brand">MENU</a> */}
-            <Link to="/signUpClient">
+            <Link to="/signUpTab">
               <a className="navbar-brand">SignUp</a>
             </Link>
             <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">

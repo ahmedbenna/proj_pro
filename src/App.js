@@ -17,6 +17,7 @@ import SignupProvider from './comp/auth/provider/SignupProvider';
 import ProfileClient from './pages/ProfileClient';
 import Nav from './comp/nav/Nav';
 import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
+import SignUpTab from './pages/SignUpTab';
 function App() {
   return (
     <div >
@@ -37,7 +38,9 @@ function App() {
           <Route path='/protfolio' element={<Protfolio />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/blog' element={<Blog />} />
-          
+          <Route path='/signUpTab' element={<SignUpTab />} />
+
+
           <Route element={<ClientProtectedRoute/>}>
             <Route path='/profileClient' element={<ProfileClient />} />
           </Route>

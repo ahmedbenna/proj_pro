@@ -142,34 +142,6 @@ export default function Signup() {
     console.log(response);
   }
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   setformData({
-  //     email: data.get('email'),
-  //     passowrd: data.get('password'),
-  //     firstName: data.get('firstName'),
-  //     lastName: data.get('lastName'),
-  //     phone: data.get('phone'),
-  //     street: data.get('street'),
-  //     city:
-  //     {
-  //       idCity: data.get('city')
-  //     }
-  //   })
-  //   console.log(
-  //     formData
-  //   );
-  //   signup();
-  // };
-
-  // React.useEffect(() => {
-  //   axios.get('http://localhost:8088/city/getAllCity').then(response => {
-  //     // setCitys(response.data)
-  //     console.log(response.data);
-  //     setLoading(false);
-  //   });
-  // }, []);
 
   if (isLoading) {
 
