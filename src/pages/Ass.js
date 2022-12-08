@@ -21,7 +21,7 @@ async function addPos(latitude,longitude) {
       console.error(error);
     }
   }
-export default function Ass() {
+export default function AddPositionProvider() {
 
 
   const [latitude, setlatitude] = useState()
