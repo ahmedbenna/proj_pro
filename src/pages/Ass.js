@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { Component } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import Map, { Marker } from 'react-map-gl';
+import Map, { GeolocateControl, Marker, NavigationControl } from 'react-map-gl';
 import axios from 'axios';
 async function addPos(latitude,longitude) {
   console.log("aaa",latitude)
@@ -63,6 +63,8 @@ export default function Ass() {
         <Marker longitude={viewport.longitude} latitude={viewport.latitude} anchor="bottom" >
           <img src="../assets/img/pin.png" />
         </Marker>
+        <GeolocateControl />
+        <NavigationControl />
       </Map >
       <Button type='submit' onClick={(e)=>{addPos(viewport.longitude,viewport.latitude)}}>add my position</Button>
 
