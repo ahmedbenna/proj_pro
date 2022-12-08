@@ -18,7 +18,8 @@ import ProfileClient from './pages/ProfileClient';
 import Nav from './comp/nav/Nav';
 import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 import SignUpTab from './pages/SignUpTab';
-import Ass from './pages/Ass'
+import Ass from './pages/AddPositionProvider'
+import AddPositionProvider from './pages/AddPositionProvider';
 function App() {
   return (
     // <div >
@@ -50,7 +51,7 @@ function App() {
 
     //   </BrowserRouter>
     // </div>
-    <Ass/>
+    <AddPositionProvider/>
   );
 }
 
