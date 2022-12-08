@@ -18,37 +18,39 @@ import ProfileClient from './pages/ProfileClient';
 import Nav from './comp/nav/Nav';
 import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 import SignUpTab from './pages/SignUpTab';
+import Ass from './pages/Ass'
 function App() {
   return (
-    <div >
+    // <div >
 
-      <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/loginClient' element={<Login />} />
-          <Route path='/signupClient' element={<Signup />} />
-          <Route path='/loginProvider' element={<LoginProvider />} />
-          <Route path='/signupProvider' element={<SignupProvider />} />
-          <Route path='/searchResult' element={<SearchResult />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/single' element={<Single />} />
-          <Route path='/team' element={<Team />} />
-          <Route path='/services' element={<Services />} />
-          <Route path='/protfolio' element={<Protfolio />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/blog' element={<Blog />} />
-          <Route path='/signUpTab' element={<SignUpTab />} />
+    //   <BrowserRouter>
+    //     <Nav />
+    //     <Routes>
+    //       <Route path='/' element={<Home />} />
+    //       <Route path='/loginClient' element={<Login />} />
+    //       <Route path='/signupClient' element={<Signup />} />
+    //       <Route path='/loginProvider' element={<LoginProvider />} />
+    //       <Route path='/signupProvider' element={<SignupProvider />} />
+    //       <Route path='/searchResult' element={<SearchResult />} />
+    //       <Route path='/about' element={<About />} />
+    //       <Route path='/single' element={<Single />} />
+    //       <Route path='/team' element={<Team />} />
+    //       <Route path='/services' element={<Services />} />
+    //       <Route path='/protfolio' element={<Protfolio />} />
+    //       <Route path='/contact' element={<Contact />} />
+    //       <Route path='/blog' element={<Blog />} />
+    //       <Route path='/signUpTab' element={<SignUpTab />} />
 
 
-          <Route element={<ClientProtectedRoute/>}>
-            <Route path='/profileClient' element={<ProfileClient />} />
-          </Route>
-        </Routes>
-        <Footer />
+    //       <Route element={<ClientProtectedRoute/>}>
+    //         <Route path='/profileClient' element={<ProfileClient />} />
+    //       </Route>
+    //     </Routes>
+    //     <Footer />
 
-      </BrowserRouter>
-    </div>
+    //   </BrowserRouter>
+    // </div>
+    <Ass/>
   );
 }
 
