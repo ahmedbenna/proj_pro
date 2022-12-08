@@ -1,16 +1,38 @@
 import React from 'react'
+const idc = localStorage.getItem('idc').id
 
 export default function ClientContractsList() {
+    const [isLoading, setLoading] = React.useState(true);
+    const [contracts, setContracts] = React.useState();
+    useEffect(() => {
+
+        async function getContract() {
+            try {
+                const response = await axios.get('http://localhost:8088/contract/client/' + idc + '/getAllContract');
+                console.log(response);
+                setContracts(response.data);
+                console.log("ccccc", contracts);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getContract()
+    }, [isLoading])
+    if (isLoading) {
+
+        return <div className="App"><CircularProgress /></div>;
+    }
     return (
         <div>
             <table class="table align-middle mb-0 bg-white">
                 <thead class="bg-light">
                     <tr>
-                        <th>Name</th>
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Position</th>
-                        <th>Actions</th>
+                        <th>provider</th>
+                        <th>job</th>
+                        <th>response</th>
+                        {/* <th>Position</th>
+                        <th>Actions</th> */}
                     </tr>
                 </thead>
                 <tbody>

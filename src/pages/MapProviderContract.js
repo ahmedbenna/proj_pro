@@ -5,7 +5,7 @@ import { useState } from "react";
 import Map, { GeolocateControl, Marker, NavigationControl, Popup } from 'react-map-gl';
 import axios from 'axios';
 
-const idc = localStorage.getItem('idp').id
+const idp = localStorage.getItem('idp').id
 export default function MapProviderContract() {
 
 
