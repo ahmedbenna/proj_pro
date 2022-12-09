@@ -72,7 +72,7 @@ export default function NavClient() {
                         <div className="col-lg-4 col-md-12">
                             <div className="logo">
                                 <Link to="/">
-                                    <h1>Builderz</h1>
+                                    <h1>Providerzz</h1>
                                     {/* <img src="assets/img/logo.jpg" alt="Logo" /> */}
                                 </Link>
                             </div>

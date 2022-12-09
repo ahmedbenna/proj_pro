@@ -132,6 +132,7 @@ export default function Signup() {
         }
       })
       signup();
+      signup();
     },
     validationSchema: validationSchema
 

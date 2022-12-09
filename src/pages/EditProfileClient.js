@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-export default function ProfileClient() {
+export default function EditProfileClient() {
 
     const [formData, setformData] = React.useState()
     const [isLoading, setLoading] = React.useState(true);

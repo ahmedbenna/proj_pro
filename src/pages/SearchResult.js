@@ -3,26 +3,26 @@ import SearchBox from '../comp/Home/SearchBox';
 import ProviderCard from '../comp/provider/ProviderCard';
 import axios from 'axios';
 import { useState } from 'react';
-import { Autocomplete, Box, Button, CircularProgress, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useEffect } from 'react';
 
-async function getProviderByCity() {
-    try {
-        const response = await axios.post('http://localhost:8088/client/signup');
-        console.log(response);
-    } catch (error) {
-        console.error(error);
-    }
-}
+// async function getProviderByCity() {
+//     try {
+//         const response = await axios.post('http://localhost:8088/client/signup');
+//         console.log(response);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
-async function getProviderByspeciality() {
-    try {
-        const response = await axios.post('http://localhost:8088/client/signup');
-        console.log(response);
-    } catch (error) {
-        console.error(error);
-    }
-}
+// async function getProviderByspeciality() {
+//     try {
+//         const response = await axios.post('http://localhost:8088/client/signup');
+//         console.log(response);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 export default function SearchResult() {
 
@@ -33,60 +33,73 @@ export default function SearchResult() {
 
     const [speciality, setSpeciality] = useState(null);
     const [city, setCity] = useState(null);
-    const [loading, setLoading] = useState(true);
+
+    const [loading1, setLoading1] = useState(true);
+    const [loading2, setLoading2] = useState(true);
+
     const [notValid, setNotValid] = useState(false);
-    console.log("auto sp", speciality)
-    console.log("auto ci", city)
 
+    const [result, setResult] = useState();
 
-     const handelSearch = (e)=> {
-            if (city != null && speciality != null) {
-                setNotValid(false)
-                try {
-                    const response =  axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                    console.log(response);
-                    setSpecialitys(response.data);
-                    console.log("ccccc", specialitys);
-                    // setLoading(false);
-                } catch (error) {
-                    console.error(error);
-                }
-            }else if ((city != null && speciality == null)){
-                setNotValid(false)
-                try {
-                    const response =  axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                    console.log(response);
-                    setSpecialitys(response.data);
-                    console.log("ccccc", specialitys);
-                    // setLoading(false);
-                } catch (error) {
-                    console.error(error);
-                }
-            }else if ((city == null && speciality != null)) {
-                setNotValid(false)
-                try {
-                    const response =  axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                    console.log(response);
-                    setSpecialitys(response.data);
-                    console.log("ccccc", specialitys);
-                    // setLoading(false);
-                } catch (error) {
-                    console.error(error);
-                }
-            }else {
-                setNotValid(true)
+    const handelSearch = (e) => {
+        console.log("auto sp", speciality)
+        console.log("auto ci", city)
+        if (city != null && speciality != null) {
+            setNotValid(false)
+            try {
+                const response = axios.get('http://localhost:8088/provider/speciality/' + speciality + '/city/' + city + '/getProvider');
+                // console.log("dfghgfdgsdgsdgsdg", response);
+                setResult(response.data);
+                setLoading2(false);
+                setLoading1(false);
+                console.log("3333333333333", result);
+
+                // setLoading(false);
+            } catch (error) {
+                console.error(error);
             }
-        
+        } else if ((city != null && speciality == null)) {
+            setNotValid(false)
+            try {
+                const response = axios.get('http://localhost:8088/speciality/getAllSpeciality');
+                console.log(response);
+                setResult(response.data);
+                setLoading2(false);
+                setLoading1(false);
+                console.log("ccccc", result);
+                // setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        } else if ((city == null && speciality != null)) {
+            setNotValid(false)
+            try {
+                const response = axios.get('http://localhost:8088/speciality/getAllSpeciality');
+                console.log(response);
+                setResult(response.data);
+                setLoading2(false);
+                setLoading1(false);
+                console.log("ccccc", result);
+                // setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            setNotValid(true)
         }
+
+    }
     useEffect(() => {
 
         async function getSpeciality() {
             try {
                 const response = await axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                console.log(response);
-                setSpecialitys(response.data);
-                console.log("ccccc", specialitys);
-                setLoading(false);
+                if (response.status == 200) {
+                    setSpecialitys(response.data);
+                    console.log("ccccc", specialitys);
+                    setLoading2(false);
+                }
+
             } catch (error) {
                 console.error(error);
             }
@@ -96,9 +109,12 @@ export default function SearchResult() {
             try {
                 const response = await axios.get('http://localhost:8088/city/getAllCity');
                 console.log(response);
-                setCitys(response.data);
-                console.log("ccccc", citys);
-                setLoading(false);
+                if (response.status == 200) {
+
+                    setCitys(response.data);
+                    console.log("ccccc", citys);
+                    setLoading1(false);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -106,11 +122,11 @@ export default function SearchResult() {
         getCity();
         getSpeciality();
         console.log("city", specialitys)
-    }, [loading]);
+    }, [loading1]);
 
-    
- 
-    if (loading == true) {
+
+
+    if (loading1 == true && loading2 == true) {
         return (
             <Box
                 display="flex"
@@ -123,7 +139,7 @@ export default function SearchResult() {
                 <CircularProgress />
             </Box >
         )
-    } else if (loading == false) {
+    } else if (loading1 == false && loading2 == false) {
         return (
             <div className="team">
                 <div className="container">
@@ -144,26 +160,61 @@ export default function SearchResult() {
                                     </div>
                                 </Grid>
                                 <Grid item xs={12} lg={6}>
-                                    <Autocomplete
-                                        disablePortal
-                                        id="combo-box-demo"
-                                        options={specialitys}
-                                        value={speciality}
-                                        // getOptionLabel={(c)=>console.log(c)}
-                                        onChange={(event, newValue) => { setSpeciality(newValue) }} style={{ color: "#FFFFFF" }}
-                                        renderInput={(params) => <TextField {...params} sx={{ bgcolor: '#ffffff' }} label="Speciality" margin="normal" variant="filled" color="warning" focused />}
-                                    />
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        backgroundColor="#ffffff"
+                                    >
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={city}
+                                            label="City"
+                                            onChange={(e) => { setCity(e.target.value) }}
+                                            // style={{ color: "#FFFFFF" }}
+                                            // sx={{ backgroundColor: '#ffffff' }}
+                                            fullWidth
+                                            color="warning"
+
+                                            variant="filled"
+                                            focused
+                                            disablePortal
+                                        >
+                                            {citys.map(cit =>
+                                                <MenuItem key={cit.idCity} value={cit.idCity}> {cit.label} </MenuItem >
+                                            )}
+                                        </Select>
+                                    </Box>
+
+
                                 </Grid>
                                 <Grid item xs={12} lg={6}>
-                                    <Autocomplete
-                                        disablePortal
-                                        id="combo-box-demo"
-                                        options={citys}
-                                        value={city}
-                                        onChange={(event, newValue) => { setCity(newValue) }} style={{ color: "#FFFFFF" }}
-                                        sx={{ width: 'auto' }}
-                                        renderInput={(params) => <TextField {...params} sx={{ bgcolor: '#ffffff' }} label="City" margin="normal" variant="filled" color="warning" focused />}
-                                    />
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        backgroundColor="#ffffff"
+                                    >
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={speciality}
+                                            label="Specilaity"
+                                            onChange={(e) => { setSpeciality(e.target.value) }}
+
+                                            fullWidth
+                                            color="warning"
+
+                                            variant="filled"
+                                            focused
+                                            disablePortal
+                                        >
+                                            {specialitys.map(spec =>
+                                                <MenuItem value={spec.idSpeciality} key={spec.idSpeciality}> {spec.label} </MenuItem >
+                                            )}
+                                        </Select>
+                                    </Box>
                                 </Grid>
                                 {(notValid) ? (
                                     <Grid item xs={12} >
@@ -179,7 +230,7 @@ export default function SearchResult() {
                                         onClick={e => handelSearch(e)}>
                                         Search</Button>
                                 </Grid>
-                                
+
 
                             </Grid>
                         </Box >
