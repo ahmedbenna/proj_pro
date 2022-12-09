@@ -22,6 +22,7 @@ import Ass from './pages/AddPositionProvider'
 import AddPositionProvider from './pages/AddPositionProvider';
 import ProviderMap from './pages/ProviderMap';
 import ClientProfile from './comp/client/ClientProfile';
+import ProviderPresenting from './pages/ProviderPresenting';
 function App() {
   return (
     <div >
@@ -48,6 +49,7 @@ function App() {
           <Route element={<ClientProtectedRoute/>}>
             <Route path='/EditProfileClient' element={<EditProfileClient />} />
             <Route path='/ClientProfile' element={<ClientProfile />} />
+            <Route path='/ProviderPresenting' element={<ProviderPresenting />} />
           </Route>
         </Routes>
         <Footer />

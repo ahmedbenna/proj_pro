@@ -9,7 +9,7 @@ function ProviderCard(props) {
                         <img src="assets/img/team-1.jpg" alt="Team Image" />
                     </div>
                     <div className="team-text">
-                        <h2>{props.firstName} -{props.lastName} </h2>
+                        <h2>{props.firstName} {props.lastName} </h2>
                         {/* <p>{props.speciality.label}</p> */}
                     </div>
                     <div className="team-social">
