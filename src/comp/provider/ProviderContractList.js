@@ -4,16 +4,16 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 
-const idc = JSON.parse(localStorage.getItem('idc'))
+const idp = JSON.parse(localStorage.getItem('idp'))
 
-export default function ClientContractsList() {
+export default function ProviderContractsList() {
     const [isLoading, setLoading] = React.useState(true);
     const [contracts, setContracts] = React.useState();
     useEffect(() => {
 
         async function getContract() {
             try {
-                const response = await axios.get('http://localhost:8088/contract/client/' + idc.id + '/getAllContract');
+                const response = await axios.get('http://localhost:8088/contract/provider/' + idp.id + '/getAllContract');
                 console.log(response);
                 setContracts(response.data);
                 console.log("ccccc", contracts);

@@ -4,29 +4,32 @@ import { CircularProgress, Button } from '@mui/material';
 import axios from 'axios';
 import ClientContractsList from '../../pages/ClientContractsList';
 import { Link } from 'react-router-dom';
+import ProviderContractsList from './ProviderContractList';
+import AddJob from './AddJob';
+import JobListe from './JobListe';
 
 
-const idc = JSON.parse(localStorage.getItem('idc'))
+const idp = JSON.parse(localStorage.getItem('idp'))
 
 
-export default function ClientProfile() {
+export default function ProviderProfile() {
     const [loading, setLoading] = useState(true);
-    const [client, setClient] = useState();
+    const [provider, setProvideer] = useState();
 
 
     useEffect(() => {
-        async function getClient() {
+        async function getProvider() {
             try {
-                const response = await axios.get('http://localhost:8088/client/getClient/' + idc.id);
+                const response = await axios.get('http://localhost:8088/provider/getProvider/' + idp.id);
                 console.log(response);
-                setClient(response.data);
-                console.log("ccccc", client);
+                setProvideer(response.data);
+                console.log("ccccc", provider);
                 setLoading(false);
             } catch (error) {
                 console.error(error);
             }
         }
-        getClient()
+        getProvider()
     }, [loading])
     if (loading) {
 
@@ -49,8 +52,11 @@ export default function ClientProfile() {
                     <div class="col-md-6">
                         <div class="profile-head">
                             <h5>
-                                {client.firstName} {client.lastName}
+                                {provider.firstName} {provider.lastName}
                             </h5>
+                            <h6>
+                                {provider.speciality.label}
+                            </h6>
                             <Link to='/EditProfileClient'>
                                 <Button >Edit Profile </Button>
                             </Link>
@@ -61,6 +67,9 @@ export default function ClientProfile() {
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Contracts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="job-tab" data-toggle="tab" href="#job" role="tab" aria-controls="profile" aria-selected="false">Job</a>
                                 </li>
                             </ul>
                         </div>
@@ -92,7 +101,7 @@ export default function ClientProfile() {
                                         <label>First Name</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{client.firstName} </p>
+                                        <p>{provider.firstName} </p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -100,7 +109,7 @@ export default function ClientProfile() {
                                         <label>Last Name</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{client.lastName}</p>
+                                        <p>{provider.lastName}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -108,7 +117,7 @@ export default function ClientProfile() {
                                         <label>Email</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{client.email}</p>
+                                        <p>{provider.email}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -116,7 +125,7 @@ export default function ClientProfile() {
                                         <label>Phone</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{client.phone}</p>
+                                        <p>{provider.phone}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -124,15 +133,17 @@ export default function ClientProfile() {
                                         <label>Birthday</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{client.birthday}</p>
+                                        <p>{provider.birthday}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <Link tp='/searchResult'>
-                                    <Button> search a provider</Button>
-                                </Link>
-                                <ClientContractsList />
+
+                                <ProviderContractsList />
+                            </div>
+                            <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
+                                <AddJob />
+                                <JobListe/>
                             </div>
                         </div>
                     </div>

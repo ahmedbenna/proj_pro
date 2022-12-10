@@ -10,16 +10,16 @@ import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mu
 
 
 
-const idc = JSON.parse(localStorage.getItem('idc'))
+const idp = JSON.parse(localStorage.getItem('idp'))
 
-export default function EditProfileClient() {
+export default function EditProfileProvider() {
 
     const [formData, setformData] = React.useState()
     const [isLoading, setLoading] = React.useState(true);
     const [minDate, setMinDate] = React.useState(moment(new Date()))
 
     const [citys, setCitys] = React.useState();
-    const [client, setClient] = React.useState({
+    const [provider, setProvider] = React.useState({
         firstName: "",
         lastName: "",
         email: "",
@@ -33,7 +33,7 @@ export default function EditProfileClient() {
 
     async function signup() {
         try {
-            const response = await axios.post('http://localhost:8088/client/editClient/'+idc.id, formData);
+            const response = await axios.put('http://localhost:8088/provider/editProvider/'+idp.id, formData);
             console.log(response);
         } catch (error) {
             console.error(error);
@@ -47,10 +47,26 @@ export default function EditProfileClient() {
                 const response = await axios.get('http://localhost:8088/city/getAllCity');
                 console.log(response);
                 setCitys(response.data);
-                const res = await axios.get('http://localhost:8088/client/getClient/1');
+                // const res = await axios.get('http://localhost:8088/provider/getClient/'+idp.id);
+                // console.log(res);
+                // setProvideer(res.data);
+                // console.log("provider", provider);
+
+                console.log("ccccc", citys);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        async function getSpeciality() {
+            try {
+                const response = await axios.get('http://localhost:8088/speciality/getAllSpecialitty');
+                console.log(response);
+                setCitys(response.data);
+                const res = await axios.get('http://localhost:8088/provider/getProvider/'+idp.id);
                 console.log(res);
-                setClient(res.data);
-                console.log("client", client);
+                setProvider(res.data);
+                console.log("provider", provider);
 
                 console.log("ccccc", citys);
                 setLoading(false);
@@ -60,6 +76,7 @@ export default function EditProfileClient() {
         }
 
       
+        getSpeciality();
         getCity();
         console.log("sdf", moment(minDate).subtract(2, 'days').format("YYYY-MM-DD"))
     }, [isLoading]);
@@ -91,14 +108,14 @@ export default function EditProfileClient() {
     })
     const Formik = useFormik({
         initialValues: {
-            firstName: client.firstName,
-            lastName: client.lastName,
-            email: client.email,
+            firstName: provider.firstName,
+            lastName: provider.lastName,
+            email: provider.email,
             password: "",
-            street: client.street,
-            phone: client.phone,
-            city: client.city.idCity,
-            birthday: moment(client.birthday).format("YYYY-MM-DD")
+            street: provider.street,
+            phone: provider.phone,
+            city: provider.city.idCity,
+            birthday: moment(provider.birthday).format("YYYY-MM-DD")
         },
         onSubmit: (values) => {
             console.log("subbbb", values)
@@ -159,7 +176,7 @@ export default function EditProfileClient() {
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span class="font-weight-bold">{client.firstName} {client.lastName}</span><span class="text-black-50">{client.email}</span><span> </span></div>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span class="font-weight-bold">{provider.firstName} {provider.lastName}</span><span class="text-black-50">{provider.email}</span><span> </span></div>
                 </div>
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">

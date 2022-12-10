@@ -33,6 +33,7 @@ export default function SignupProvider() {
         try {
             const response = await axios.post('http://localhost:8088/provider/signup', formData);
             console.log(response);
+            localStorage.setItem('idp', JSON.stringify({ "id": response.data.id }))
             window.location.reload(false)
         } catch (error) {
             console.error(error);

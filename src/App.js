@@ -23,6 +23,9 @@ import AddPositionProvider from './pages/AddPositionProvider';
 import ProviderMap from './pages/AllProviderMap';
 import ClientProfile from './comp/client/ClientProfile';
 import ProviderPresenting from './pages/ProviderPresenting';
+import ProviderProtectedRoute from './comp/auth/provider/ProviderProtectedRoute';
+import ProviderProfile from './comp/provider/ProviderProfile';
+import EditProfileProvider from './comp/provider/EditProfileProvider';
 function App() {
   return (
     <div >
@@ -50,6 +53,11 @@ function App() {
             <Route path='/EditProfileClient' element={<EditProfileClient />} />
             <Route path='/ClientProfile' element={<ClientProfile />} />
             <Route path='/ProviderPresenting' element={<ProviderPresenting />} />
+          </Route>
+          <Route element={<ProviderProtectedRoute/>}>
+            <Route path='/EditProfileProvider' element={<EditProfileProvider />} />
+            <Route path='/ProviderProfile' element={<ProviderProfile />} />
+            {/* <Route path='/ProviderPresenting' element={<ProviderPresenting />} /> */}
           </Route>
         </Routes>
         <Footer />

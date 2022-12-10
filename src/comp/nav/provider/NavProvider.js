@@ -44,7 +44,7 @@ export default function NavProvider() {
         async function getClient() {
             try {
 
-                const res = await axios.get('http://localhost:8088/provideer/getProvider/'+idp.id);
+                const res = await axios.get('http://localhost:8088/provider/getProvider/'+idp.id);
                 console.log(res);
                 setClient(res.data);
                 setLoading(false);
@@ -142,11 +142,11 @@ export default function NavProvider() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <Link to='clientProfile'>
+                            <Link to='/providerProfile'>
                                 <MenuItem onClick={handleClose}>Profile</MenuItem>
 
                             </Link>
-                            <MenuItem onClick={handleSignOut}>My account</MenuItem>
+                            <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
                         </Menu>
                         <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                             <span className="navbar-toggler-icon"></span>

@@ -33,7 +33,7 @@ export default function BasicTabs() {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={5}>
-                    <Link to="/signUpProvider">
+                    <Link to="/signUpClient">
                         <Box sx={{
                             border: '1px grey',
                             display: "flex",
@@ -71,7 +71,7 @@ export default function BasicTabs() {
                 </Grid>
 
                 <Grid item md={5} xs={12} >
-                    <Link to="/signUpClient">
+                    <Link to="/signUpProvider">
                         <Box sx={{
                             border: '1px grey',
                             display: "flex",
