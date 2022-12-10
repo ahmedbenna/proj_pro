@@ -3,7 +3,7 @@ import React from 'react'
 import axios from 'axios'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 export default function ProviderPresenting(props) {
 
@@ -12,11 +12,14 @@ export default function ProviderPresenting(props) {
     const location = useLocation();
     const p = location.state;
     console.log(p.id);
+    if(!p){
+        <Navigate to='/searchResult' />
+    }
     useEffect(() => {
         async function getProvider() {
             try {
 
-                const res = await axios.get('http://localhost:8088/provider/getProvider/'+ p.id);
+                const res = await axios.get('http://localhost:8088/provider/getProvider/' + p.id);
                 console.log(res);
                 setProvider(res.data);
                 setLoading(false);
@@ -35,7 +38,7 @@ export default function ProviderPresenting(props) {
         return <div className="App"><CircularProgress /></div>;
     }
     return (
-        <div>
+        <div class='bodyyyy'>
             <div class="page-content page-container" id="page-content">
                 <div class="padding">
                     <div class="row container d-flex justify-content-center">
@@ -76,14 +79,56 @@ export default function ProviderPresenting(props) {
                                                     <h6 class="text-muted f-w-400">{provider.street}</h6>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        xcv
+                        <div class="container ">
+                            <div>
+                                <p class="h2 text-center mb-5">
+                                    Choose Your Perfect Plans
+                                </p>
+                            </div>
+                            <div class="row mt-3 bodyyyy">
+                                <div class="col-lg-3 col-md-6 bodyyyy " style={{marginTop:'50px'}}>
+                                    <div class="carddd d-flex align-items-center justify-content-center">
+                                        <div class="ribon">
+                                            <span class="material-icons">
+                                                rocket
+                                            </span>
+                                        </div>
+                                        <ul class="mb-12 list-unstyled text-muted">
+                                            <li>
+                                                Bedrooms cleaning
+                                            </li>
+                                        </ul>
+                                        <div class="btn btn-primary">
+                                            get started
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6  bodyyyy"style={{marginTop:'50px'}}>
+                                    <div class="carddd d-flex align-items-center justify-content-center">
+                                        <div class="ribon">
+                                            <span class="material-icons">
+                                                rocket
+                                            </span>
+                                        </div>
+                                        <ul class="mb-12 list-unstyled text-muted">
+                                            <li>
+                                                Bedrooms cleaning
+                                            </li>
+                                        </ul>
+                                        <div class="btn btn-primary">
+                                            get started
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

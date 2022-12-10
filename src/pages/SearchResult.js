@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Box, Button, CircularProgress, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import AllProviderMap from './AllProviderMap';
 
 // async function getProviderByCity() {
 //     try {
@@ -43,6 +44,8 @@ export default function SearchResult() {
 
     const [result, setResult] = useState(null);
 
+    const [map, setMap] = useState('all')
+
     const handelSearch = (e) => {
         console.log("auto sp", speciality)
         console.log("auto ci", city)
@@ -54,6 +57,7 @@ export default function SearchResult() {
                     setResult(response.data);
                     setLoading2(false);
                     setLoading1(false);
+                    setMap('2')
                     console.log("3333333333333", result);
                 })
                 .catch((error) => {
@@ -61,32 +65,33 @@ export default function SearchResult() {
                 })
         } else if ((city != null && speciality == null)) {
             setNotValid(false)
-            try {
-                const response = axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                console.log(response);
-                setResult(response.data);
-                setLoading2(false);
-                setLoading1(false);
-                console.log("ccccc", result);
-                // setLoading(false);
-            } catch (error) {
-                console.error(error);
-            }
+            axios.get('http://localhost:8088/provider/city/' + city + '/getProvider')
+                .then((response) => {
+                    setResult(response.data);
+                    setLoading2(false);
+                    setLoading1(false);
+                    setMap('city')
+                    console.log("3333333333333", result);
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
         } else if ((city == null && speciality != null)) {
             setNotValid(false)
-            try {
-                const response = axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                console.log(response);
-                setResult(response.data);
-                setLoading2(false);
-                setLoading1(false);
-                console.log("ccccc", result);
-                // setLoading(false);
-            } catch (error) {
-                console.error(error);
-            }
+            const response = axios.get('http://localhost:8088/provider/speciality/' + speciality + '/getProvider')
+                .then((response) => {
+                    setResult(response.data);
+                    setLoading2(false);
+                    setLoading1(false);
+                    setMap('speciality')
+                    console.log("3333333333333", result);
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
         } else {
             setNotValid(true)
+            setMap('all')
         }
 
     }
@@ -223,26 +228,32 @@ export default function SearchResult() {
                                     </Grid>
                                 ) : ('')}
                                 <Grid item xs={12} >
-                                    <Button style={{
-                                        backgroundColor: "#fd7e14",
-                                        color: '#030f27',
+                                    <a href='#res'>
+                                        <Button style={{
+                                            backgroundColor: "#fd7e14",
+                                            color: '#030f27',
 
-                                    }}
-                                        onClick={e => handelSearch(e)}>
-                                        Search</Button>
+                                        }}
+                                            onClick={e => handelSearch(e)}>
+                                            Search</Button>
+                                    </a>
+
                                 </Grid>
 
 
                             </Grid>
                         </Box >
                     </div>
+                    {/* <div class="row "> */}
+                    <AllProviderMap />
+                    {/* </div> */}
 
 
-                    <div class="row ">
+                    <div class="row " id='res'>
                         {(result) != null ? (
 
                             result.map(r =>
-                                <Link state={{id :r.id}} to='/ProviderPresenting'>
+                                <Link state={{ id: r.id }} to='/ProviderPresenting'>
                                     <ProviderCard firstName={r.firstName} lastName={r.lastName} />
                                 </Link>
                             )

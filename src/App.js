@@ -20,7 +20,7 @@ import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 import SignUpTab from './pages/SignUpTab';
 import Ass from './pages/AddPositionProvider'
 import AddPositionProvider from './pages/AddPositionProvider';
-import ProviderMap from './pages/ProviderMap';
+import ProviderMap from './pages/AllProviderMap';
 import ClientProfile from './comp/client/ClientProfile';
 import ProviderPresenting from './pages/ProviderPresenting';
 function App() {

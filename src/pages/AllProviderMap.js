@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Map, { GeolocateControl, Marker, NavigationControl, Popup } from 'react-map-gl';
 import axios from 'axios';
-export default function ProviderMap() {
+export default function AllProviderMap() {
 
 
     const [latitude, setlatitude] = useState()
@@ -49,13 +49,14 @@ export default function ProviderMap() {
     }
 
     return (
-        <>
+        <div class=" bodyyyy" style={{marginBottom:'50px'}}>
+         
             <Map
                 mapboxAccessToken={
                     "pk.eyJ1IjoiOWE3dDYiLCJhIjoiY2xiZWF1MWdlMDluOTNvcGF6Zmx3bng2ayJ9.8bB7_aVExETntLYL9F0fOA"
                 }
                 {...viewport}
-                style={{ width: '50vw', height: '50vh' }}
+                style={{ width: '90vw', height: '50vh' }}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 onMove={(v) => setViewport(v.viewState)}
 
@@ -69,7 +70,7 @@ export default function ProviderMap() {
                 <NavigationControl />
             </Map >
 
-        </>
+        </div>
 
     );
 }
