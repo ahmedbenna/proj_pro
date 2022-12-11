@@ -2,11 +2,12 @@ import { CssBaseline, Grid } from '@mui/material'
 import moment from 'moment';
 import React from 'react'
 import * as yup from "yup";
-import { useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Navigate, Outlet } from 'react-router-dom'
 
 
 
@@ -15,9 +16,11 @@ const idp = JSON.parse(localStorage.getItem('idp'))
 export default function EditProfileProvider() {
 
     const [formData, setformData] = React.useState()
+    const [passData, setPassData] = React.useState()
+
     const [isLoading, setLoading] = React.useState(true);
     const [minDate, setMinDate] = React.useState(moment(new Date()))
-
+    const [specialitys, setSpecialitys] = React.useState();
     const [citys, setCitys] = React.useState();
     const [provider, setProvider] = React.useState({
         firstName: "",
@@ -26,14 +29,29 @@ export default function EditProfileProvider() {
         password: "",
         street: "",
         phone: "",
-        city: 2,
+        city: {
+            idSpeciality: 1
+        },
+        speciality: {
+            idSpeciality: 1
+        },
         birthday: moment(minDate).subtract(18, 'years').format("YYYY-MM-DD")
     });
 
 
     async function signup() {
         try {
-            const response = await axios.put('http://localhost:8088/provider/editProvider/'+idp.id, formData);
+            const response = await axios.put('http://localhost:8088/provider/editProvider/' + idp.id, formData);
+            console.log(response);
+            <Navigate to='/providerProfile' />
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function changePass() {
+        try {
+            const response = await axios.put('http://localhost:8088/provider/editPassword/' + idp.id, passData);
             console.log(response);
         } catch (error) {
             console.error(error);
@@ -53,29 +71,36 @@ export default function EditProfileProvider() {
                 // console.log("provider", provider);
 
                 console.log("ccccc", citys);
-                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
         }
         async function getSpeciality() {
             try {
-                const response = await axios.get('http://localhost:8088/speciality/getAllSpecialitty');
+                const response = await axios.get('http://localhost:8088/speciality/getAllSpeciality');
                 console.log(response);
-                setCitys(response.data);
-                const res = await axios.get('http://localhost:8088/provider/getProvider/'+idp.id);
-                console.log(res);
-                setProvider(res.data);
-                console.log("provider", provider);
+                setSpecialitys(response.data);
 
-                console.log("ccccc", citys);
-                setLoading(false);
+
+
+                console.log("spec", specialitys);
+
             } catch (error) {
                 console.error(error);
             }
+            axios.get('http://localhost:8088/provider/getProvider/' + idp.id)
+                .then(res => {
+                    console.log(res);
+                    setProvider(res.data);
+                    setLoading(false);
+                    console.log("provider", provider);
+                })
+                .catch(err => {
+                    console.log("eeeeeee", err)
+                })
         }
 
-      
+
         getSpeciality();
         getCity();
         console.log("sdf", moment(minDate).subtract(2, 'days').format("YYYY-MM-DD"))
@@ -95,72 +120,71 @@ export default function EditProfileProvider() {
             .required('phone is required')
             .max(99999999, 'Saisir 8 chiffres')
             .min(10000000, 'Saisir 8 chiffres'),
-        password: yup.string()
+        opassword: yup.string()
+            .required('password is required'),
+        npassword: yup.string()
             .required('password is required')
             .min(8, 'il faut plus que 8 caractére'),
-        cPassword: yup.string()
+        cpassword: yup.string()
             .required('password is required')
-            .oneOf([yup.ref('password'), null], 'mote de passe incorrecte'),
+            .oneOf([yup.ref('npassword'), null], 'mote de passe incorrecte'),
         birthday: yup.date()
             .max(minnDate, "Il faut avoir 18 ans minimum")
             .required('Obligatoire'),
 
     })
-    const Formik = useFormik({
-        initialValues: {
-            firstName: provider.firstName,
-            lastName: provider.lastName,
-            email: provider.email,
-            password: "",
-            street: provider.street,
-            phone: provider.phone,
-            city: provider.city.idCity,
-            birthday: moment(provider.birthday).format("YYYY-MM-DD")
-        },
-        onSubmit: (values) => {
-            console.log("subbbb", values)
-            setformData({
-                email: values.email,
-                passowrd: values.password,
-                firstName: values.firstName,
-                lastName: values.lastName,
-                phone: values.phone,
-                street: values.street,
-                birthday: values.birthday,
-                city:
-                {
-                    idCity: values.city
-                }
-            })
-            signup();
-        },
-        validationSchema: validationSchema,
-        enableReinitialize: true
+    // const props = useFormik({
+    //     initialValues: {
+    //         firstName: provider.firstName,
+    //         lastName: provider.lastName,
+    //         email: provider.email,
+    //         street: provider.street,
+    //         phone: provider.phone,
+    //         city: provider.city.idCity,
+    //         speciality: provider.speciality.idSpeciality,
+    //         birthday: moment(provider.birthday).format("YYYY-MM-DD")
+    //     },
+    //     onSubmit: (values) => {
+    //         console.log("subbbb", values)
+    //         setformData({
+    //             email: values.email,
+    //             passowrd: values.password,
+    //             firstName: values.firstName,
+    //             lastName: values.lastName,
+    //             phone: values.phone,
+    //             street: values.street,
+    //             birthday: values.birthday,
+    //             city:
+    //             {
+    //                 idCity: values.city
+    //             },
+    //             speciality:
+    //             {
+    //                 idSpeciality: values.speciality
+    //             }
+    //         })
+    //         signup();
+    //     },
+    //     validationSchema: validationSchema,
+    //     enableReinitialize: true
 
 
 
-    })
+    // })
     const FormikPass = useFormik({
         initialValues: {
-            password: "",
+            opassword: "",
+            npassword: "",
             cpassword: "",
         },
         onSubmit: (values) => {
             console.log("subbbb", values)
-            setformData({
-               
-                passowrd: values.password,
-                firstName: values.firstName,
-                lastName: values.lastName,
-                phone: values.phone,
-                street: values.street,
-                birthday: values.birthday,
-                city:
-                {
-                    idCity: values.city
-                }
+            setPassData({
+                opassword: values.opassword,
+                npassword: values.npassword,
+                cpassword: values.cpassword
             })
-            signup();
+            changePass();
         },
         validationSchema: validationSchema,
         enableReinitialize: true
@@ -186,153 +210,198 @@ export default function EditProfileProvider() {
                         <div class="row ">
                             <Grid container>
                                 <Grid item>
-                                    <form onSubmit={(e) => { e.preventDefault(); Formik.handleSubmit(e) }} >
-                                        <Grid container justifyContent="center" spacing={2}>
-                                            <Grid item xs={12} sm={6} justifyContent="center">
-                                                <TextField
-                                                    autoComplete="given-name"
-                                                    name="firstName"
+                                    <Formik
+                                        initialValues={{
+                                            firstName: provider.firstName,
+                                            lastName: provider.lastName,
+                                            email: provider.email,
+                                            street: provider.street,
+                                            phone: provider.phone,
+                                            city: provider.city.idCity,
+                                            speciality: provider.speciality.idSpeciality,
+                                            birthday: moment(provider.birthday).format("YYYY-MM-DD")
+                                        }}
 
-                                                    fullWidth
-                                                    id="firstName"
-                                                    label="First Name"
-                                                    autoFocus
-                                                    value={Formik.values.firstName}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.firstName && Boolean(Formik.errors.firstName)}
-                                                    helperText={Formik.touched.firstName && Formik.errors.firstName}
-                                                />
+                                        onSubmit={async (values) => {
+                                            await new Promise((r) => setTimeout(r, 500));
+                                            setformData({
+                                                email: values.email,
+                                                passowrd: values.password,
+                                                firstName: values.firstName,
+                                                lastName: values.lastName,
+                                                phone: values.phone,
+                                                street: values.street,
+                                                birthday: values.birthday,
+                                                city:
+                                                {
+                                                    idCity: values.city
+                                                },
+                                                speciality: {
+                                                    idSpeciality: values.speciality
+                                                }
+
+
+                                            });
+
+                                            signup();
+                                        }}
+
+                                    >
+                                        {props => (
+
+
+                                            <form onSubmit={props.handleSubmit} >                                        <Grid container justifyContent="center" spacing={2}>
+                                                <Grid item xs={12} sm={6} justifyContent="center">
+                                                    <TextField
+                                                        autoComplete="given-name"
+                                                        name="firstName"
+
+                                                        fullWidth
+                                                        id="firstName"
+                                                        label="First Name"
+                                                        autoFocus
+                                                        value={props.values.firstName}
+                                                        onBlur={props.handleBlur}
+                                                        onChange={props.handleChange}
+                                                        error={props.touched.firstName && Boolean(props.errors.firstName)}
+                                                        helperText={props.touched.firstName && props.errors.firstName}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <TextField
+
+                                                        fullWidth
+                                                        id="lastName"
+                                                        label="Last Name"
+                                                        name="lastName"
+                                                        autoComplete="family-name"
+                                                        value={props.values.lastName}
+                                                        onBlur={props.handleBlur}
+                                                        onChange={props.handleChange}
+                                                        error={props.touched.lastName && Boolean(props.errors.lastName)}
+                                                        helperText={props.touched.lastName && props.errors.lastName}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+
+                                                        fullWidth
+                                                        id="email"
+                                                        label="Email Address"
+                                                        name="email"
+                                                        autoComplete="email"
+                                                        value={props.values.email}
+                                                        onBlur={props.handleBlur}
+                                                        onChange={props.handleChange}
+                                                        error={props.touched.email && Boolean(props.errors.email)}
+                                                        helperText={props.touched.email && props.errors.email}
+                                                    />
+                                                </Grid>
+
+
+                                                <Grid item xs={12}>
+                                                    <TextField
+
+                                                        fullWidth
+                                                        name="phone"
+                                                        label="phone"
+                                                        type="text"
+                                                        id="phone"
+                                                        autoComplete="phone"
+                                                        value={props.values.phone}
+                                                        onBlur={props.handleBlur}
+                                                        onChange={props.handleChange}
+                                                        error={props.touched.phone && Boolean(props.errors.phone)}
+                                                        helperText={props.touched.phone && props.errors.phone}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+
+                                                        fullWidth
+                                                        name="street"
+                                                        label="street"
+                                                        type="text"
+                                                        id="street"
+                                                        autoComplete="street"
+                                                        value={props.values.street}
+                                                        onBlur={props.handleBlur}
+                                                        onChange={props.handleChange}
+                                                        error={props.touched.street && Boolean(props.errors.street)}
+                                                        helperText={props.touched.street && props.errors.street}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <FormControl fullWidth>
+                                                        <InputLabel id="demo-simple-select-label">city</InputLabel>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            label="city"
+                                                            name="city"
+                                                            value={props.values.city}
+                                                            onChange={props.handleChange}
+
+                                                        >
+                                                            {citys.map(items =>
+                                                                <MenuItem key={items.idCity} value={items.idCity}>{items.label}</MenuItem>
+                                                            )}
+
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <FormControl fullWidth>
+                                                        <InputLabel id="demo-simple-select-label">Speciality</InputLabel>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            label="speciality"
+                                                            name="speciality"
+                                                            value={props.values.speciality}
+                                                            onChange={props.handleChange}
+                                                        // id="speciality"
+
+                                                        // onChange={handleChange}
+                                                        >
+                                                            {specialitys.map(items =>
+                                                                <MenuItem key={items.idSpeciality} value={items.idSpeciality}>{items.label}</MenuItem>
+                                                            )}
+
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        fullWidth
+                                                        id="date"
+                                                        name="birthday"
+                                                        label="birthday"
+                                                        type="date"
+                                                        value={props.values.birthday}
+                                                        onBlur={props.handleBlur}
+                                                        onChange={props.handleChange}
+                                                        error={props.touched.birthday && Boolean(props.errors.birthday)}
+                                                        helperText={props.touched.birthday && props.errors.birthday}
+                                                    // defaultValue={moment(minDate).subtract(18, 'years').format("YYYY-MM-DD")}
+                                                    />
+                                                </Grid>
+
+
                                             </Grid>
-                                            <Grid item xs={12} sm={6}>
-                                                <TextField
-
-                                                    fullWidth
-                                                    id="lastName"
-                                                    label="Last Name"
-                                                    name="lastName"
-                                                    autoComplete="family-name"
-                                                    value={Formik.values.lastName}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.lastName && Boolean(Formik.errors.lastName)}
-                                                    helperText={Formik.touched.lastName && Formik.errors.lastName}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField
-
-                                                    fullWidth
-                                                    id="email"
-                                                    label="Email Address"
-                                                    name="email"
-                                                    autoComplete="email"
-                                                    value={Formik.values.email}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.email && Boolean(Formik.errors.email)}
-                                                    helperText={Formik.touched.email && Formik.errors.email}
-                                                />
-                                            </Grid>
+                                                <Button
+                                                    type="submit"
+                                                    // fullWidth
+                                                    variant="contained"
+                                                    sx={{ mt: 3, mb: 2 }}
+                                                >
+                                                    Save Profile
+                                                </Button>
 
 
-                                            <Grid item xs={12}>
-                                                <TextField
-
-                                                    fullWidth
-                                                    name="phone"
-                                                    label="phone"
-                                                    type="text"
-                                                    id="phone"
-                                                    autoComplete="phone"
-                                                    value={Formik.values.phone}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.phone && Boolean(Formik.errors.phone)}
-                                                    helperText={Formik.touched.phone && Formik.errors.phone}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField
-
-                                                    fullWidth
-                                                    name="street"
-                                                    label="street"
-                                                    type="text"
-                                                    id="street"
-                                                    autoComplete="street"
-                                                    value={Formik.values.street}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.street && Boolean(Formik.errors.street)}
-                                                    helperText={Formik.touched.street && Formik.errors.street}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <FormControl fullWidth>
-                                                    <InputLabel id="demo-simple-select-label">city</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        label="city"
-                                                        name="city"
-                                                        value={Formik.values.city}
-                                                        onChange={Formik.handleChange}
-
-                                                    >
-                                                        {citys.map(items =>
-                                                            <MenuItem key={items.idCity} value={items.idCity}>{items.label}</MenuItem>
-                                                        )}
-
-                                                    </Select>
-                                                </FormControl>
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField
-                                                    fullWidth
-                                                    id="date"
-                                                    name="birthday"
-                                                    label="birthday"
-                                                    type="date"
-                                                    value={Formik.values.birthday}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.birthday && Boolean(Formik.errors.birthday)}
-                                                    helperText={Formik.touched.birthday && Formik.errors.birthday}
-                                                // defaultValue={moment(minDate).subtract(18, 'years').format("YYYY-MM-DD")}
-                                                />
-                                            </Grid>
-                                            <Grid item>
-                                                <CssBaseline />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField
-
-                                                    fullWidth
-                                                    name="password"
-                                                    label="Confirme Password"
-                                                    type="password"
-                                                    id="password"
-                                                    autoComplete="new-password"
-                                                    value={Formik.values.password}
-                                                    onBlur={Formik.handleBlur}
-                                                    onChange={Formik.handleChange}
-                                                    error={Formik.touched.password && Boolean(Formik.errors.password)}
-                                                    helperText={Formik.touched.password && Formik.errors.password}
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                        <Button
-                                            type="submit"
-                                            // fullWidth
-                                            variant="contained"
-                                            sx={{ mt: 3, mb: 2 }}
-                                        >
-                                            Save Profile
-                                        </Button>
-
-
-                                    </form>
+                                            </form>
+                                        )}
+                                    </Formik>
                                 </Grid>
                             </Grid>
 
@@ -343,10 +412,102 @@ export default function EditProfileProvider() {
                 <div class="col-md-4">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center experience"><span>Edit Password</span></div>
+                        <Formik
+                            initialValues={{
+                                firstName: provider.firstName,
+                                lastName: provider.lastName,
+                                email: provider.email,
+                                street: provider.street,
+                                phone: provider.phone,
+                                city: provider.city.idCity,
+                                speciality: provider.speciality.idSpeciality,
+                                birthday: moment(provider.birthday).format("YYYY-MM-DD")
+                            }}
 
+                            onSubmit={async (values) => {
+                                await new Promise((r) => setTimeout(r, 500));
+                                setformData({
+                                    email: values.email,
+                                    passowrd: values.password,
+                                    firstName: values.firstName,
+                                    lastName: values.lastName,
+                                    phone: values.phone,
+                                    street: values.street,
+                                    birthday: values.birthday,
+                                    city:
+                                    {
+                                        idCity: values.city
+                                    },
+                                    speciality: {
+                                        idSpeciality: values.speciality
+                                    }
+                                });
+                                signup();
+                            }}
+                        >
+                            {props => (
+                                <form onSubmit={props.handleSubmit} >                            <CssBaseline />
+                                    <Grid spacing={4} container>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                name="opassword"
+                                                label="Old Password"
+                                                type="password"
+                                                id="opassword"
+                                                autoComplete="new-password"
+                                                value={props.values.opassword}
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                error={props.touched.password && Boolean(props.errors.password)}
+                                                helperText={props.touched.password && props.errors.password}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                name="npassword"
+                                                label="New Password"
+                                                type="password"
+                                                id="npassword"
+                                                autoComplete="new-password"
+                                                value={props.values.npassword}
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                error={props.touched.npassword && Boolean(props.errors.npassword)}
+                                                helperText={props.touched.npassword && props.errors.npassword}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                name="cpassword"
+                                                label="Confirme Password"
+                                                type="password"
+                                                id="cpassword"
+                                                autoComplete="new-cpassword"
+                                                value={props.values.cpassword}
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                error={props.touched.cpassword && Boolean(props.errors.cpassword)}
+                                                helperText={props.touched.cpassword && props.errors.cpassword}
+                                            />
+                                        </Grid>
+                                        <Button
+                                            type="submit"
+                                            // fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                        >
+                                            Change Password
+                                        </Button>
+                                    </Grid>
+                                </form>
+                            )}
+                        </Formik>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

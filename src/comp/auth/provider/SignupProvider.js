@@ -158,6 +158,7 @@ export default function SignupProvider() {
                                     lastName: values.lastName,
                                     phone: values.phone,
                                     street: values.street,
+                                    birthday: values.birthday,
                                     city:
                                     {
                                         idCity: values.city
@@ -255,7 +256,7 @@ export default function SignupProvider() {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth>
-                                                <InputLabel id="demo-simple-select-label">city</InputLabel>
+                                                <InputLabel id="demo-simple-select-label">Speciality</InputLabel>
                                                 <Select
                                                     labelId="demo-simple-select-label"
                                                     id="demo-simple-select"

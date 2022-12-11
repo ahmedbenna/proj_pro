@@ -245,7 +245,7 @@ export default function SearchResult() {
                         </Box >
                     </div>
                     {/* <div class="row "> */}
-                    <AllProviderMap />
+                    <AllProviderMap prov={result}/>
                     {/* </div> */}
 
 

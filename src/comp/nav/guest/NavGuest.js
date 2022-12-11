@@ -110,7 +110,7 @@ export default function NavGuest() {
                 </Link>
               </div>
               <div className="ml-auto">
-                <Link to="/signUpClient">
+                <Link to="/signUpTab">
                   <button className="btn">SignUp</button>
                 </Link>
               </div>

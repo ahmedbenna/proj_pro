@@ -7,7 +7,11 @@ import { Link } from 'react-router-dom';
 import ProviderContractsList from './ProviderContractList';
 import AddJob from './AddJob';
 import JobListe from './JobListe';
-
+import AddIcon from '@mui/icons-material/Add';
+import AddProviderOnMap from './AddProviderOnMap';
+import ProviderPosition from '../../pages/ProviderPosition';
+import AddDescription from './AddDescription';
+import moment from 'moment';
 
 const idp = JSON.parse(localStorage.getItem('idp'))
 
@@ -57,7 +61,7 @@ export default function ProviderProfile() {
                             <h6>
                                 {provider.speciality.label}
                             </h6>
-                            <Link to='/EditProfileClient'>
+                            <Link to='/EditProfileProvider'>
                                 <Button >Edit Profile </Button>
                             </Link>
 
@@ -133,9 +137,45 @@ export default function ProviderProfile() {
                                         <label>Birthday</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{provider.birthday}</p>
+                                        <p>{moment(provider.birthday).format("dddd, MMMM Do YYYY")}</p>
                                     </div>
                                 </div>
+                                {(provider.description) ? (
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Description</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>{provider.description}</p>
+                                        </div>
+                                    </div>
+                                ) : (<div class="row">
+                                    <div class="col-md-6">
+                                        <label>Description</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <AddDescription provider={provider} />
+                                    </div>
+                                </div>)}
+                                {(provider.longitude) ? (
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Position on the MAP</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ProviderPosition lon={provider.longitude} lat={provider.latitude} />
+                                        </div>
+                                    </div>
+                                ) : (<div class="row">
+                                    <div class="col-md-6">
+                                        <label>Add your position on the MAP</label>
+                                        <AddProviderOnMap />
+
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>)}
+
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
@@ -143,7 +183,7 @@ export default function ProviderProfile() {
                             </div>
                             <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
                                 <AddJob />
-                                <JobListe/>
+                                <JobListe />
                             </div>
                         </div>
                     </div>

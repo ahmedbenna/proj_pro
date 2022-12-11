@@ -63,9 +63,8 @@ export default function MapProviderContract() {
 
             >
                 <Marker longitude={viewport.longitude} latitude={viewport.latitude} anchor="bottom" >
-                    <div>
-                        <img style={{ width: '20px', height: '20px' }} src="../assets/img/pin.png" />
-                    </div>
+                <img style={{ width: '3.5vw', height: '4vh' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+
                 </Marker>
                 <GeolocateControl />
                 <NavigationControl />

@@ -143,11 +143,11 @@ export default function NavClient() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <Link to='/profileClient'>
+                            <Link to='/ClientProfile'>
                                 <MenuItem onClick={handleClose}>Profile</MenuItem>
 
                             </Link>
-                            <MenuItem onClick={handleSignOut}>My account</MenuItem>
+                            <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
                         </Menu>
                         <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                             <span className="navbar-toggler-icon"></span>

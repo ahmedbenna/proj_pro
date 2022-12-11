@@ -18,9 +18,6 @@ import EditProfileClient from './pages/EditProfileClient';
 import Nav from './comp/nav/Nav';
 import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 import SignUpTab from './pages/SignUpTab';
-import Ass from './pages/AddPositionProvider'
-import AddPositionProvider from './pages/AddPositionProvider';
-import ProviderMap from './pages/AllProviderMap';
 import ClientProfile from './comp/client/ClientProfile';
 import ProviderPresenting from './pages/ProviderPresenting';
 import ProviderProtectedRoute from './comp/auth/provider/ProviderProtectedRoute';
@@ -56,7 +53,7 @@ function App() {
           </Route>
           <Route element={<ProviderProtectedRoute/>}>
             <Route path='/EditProfileProvider' element={<EditProfileProvider />} />
-            <Route path='/ProviderProfile' element={<ProviderProfile />} />
+            <Route path='/providerProfile' element={<ProviderProfile />} />
             {/* <Route path='/ProviderPresenting' element={<ProviderPresenting />} /> */}
           </Route>
         </Routes>
