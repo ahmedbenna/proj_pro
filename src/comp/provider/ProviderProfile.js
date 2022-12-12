@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { CircularProgress, Button } from '@mui/material';
 import axios from 'axios';
-import ClientContractsList from '../../pages/ClientContractsList';
+import ClientContractsList from '../client/ClientContractsList';
 import { Link } from 'react-router-dom';
 import ProviderContractsList from './ProviderContractList';
 import AddJob from './AddJob';

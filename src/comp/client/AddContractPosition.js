@@ -5,13 +5,12 @@ import { useState } from "react";
 import Map, { GeolocateControl, Marker, NavigationControl, Popup } from 'react-map-gl';
 import axios from 'axios';
 
-const idp = JSON.parse(localStorage.getItem('idp'))
+const idc = JSON.parse(localStorage.getItem('idc'))
+// console.log(idc)
+export default function AddContractPosition(props) {
 
-export default function AddContractPosition() {
 
-
-    const [loading, setLoading] = React.useState(true);
-    const [provider, setProvider] = React.useState();
+    const [data, setData] = React.useState();
 
     const [viewport, setViewport] = useState({
         latitude: 36.950800654859165,
@@ -20,43 +19,40 @@ export default function AddContractPosition() {
         width: window.innerWidth,
         height: window.innerHeight
     });
-    useEffect(() => {
-        async function getProvider() {
-            try {
-                const response = await axios.get('http://localhost:8088/provider/getProvider/' + idp.id);
-                console.log(response);
-                setProvider(response.data);
-                console.log("ccccc", provider);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
+
+
+    // console.log(viewport)
+
+    const handleAddContract = () => {
+        setData({
+            latitude: viewport.latitude,
+            longitude: viewport.longitude,
+            provider:{
+                id:props.pr.id
+            },
+            job:{
+                idJob:props.jo.idJob,
+            },
+            client:{
+                id:idc.id
             }
-        }
-        getProvider()
-    }, [loading])
-    console.log(viewport)
 
-    const handleAddPosition = () => {
-        setProvider({ ...provider, latitude: viewport.latitude.toString(), longitude: viewport.longitude.toString() })
-        console.log("viwx", provider)
 
-        axios.put('http://localhost:8088/provider/editProvider/' + idp.id, provider)
+
+        })
+
+        axios.post('http://localhost:8088/contract/add/', data)
             .then((res) => {
                 console.log(res)
-                if (res.data.latitude == null) {
-                    axios.put('http://localhost:8088/provider/editProvider/' + idp.id, provider)
-                }
-                // window.location.reload(false)
+              window.location = '/clientProfile'
             })
             .catch(err => {
+                
                 console.log(err)
             })
 
     }
-    if (loading) {
 
-        return <div className="App"><CircularProgress /></div>;
-    }
 
     return (
         <div class=" bodyyyy" style={{ marginBottom: '50px' }}>
@@ -67,13 +63,13 @@ export default function AddContractPosition() {
                             "pk.eyJ1IjoiOWE3dDYiLCJhIjoiY2xiZWF1MWdlMDluOTNvcGF6Zmx3bng2ayJ9.8bB7_aVExETntLYL9F0fOA"
                         }
                         {...viewport}
-                        style={{ width: '400px', height: '400px' }}
+                        style={{ width: '90vw', height: '70vh' }}
                         mapStyle="mapbox://styles/mapbox/streets-v9"
                         onMove={(v) => setViewport(v.viewState)}
 
                     >
                         <Marker longitude={viewport.longitude} latitude={viewport.latitude} anchor="bottom" >
-                        <img style={{ width: '3.5vw', height: '4vh' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+                            <img style={{ width: '20px', height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
 
                         </Marker>
                         <GeolocateControl />
@@ -81,7 +77,7 @@ export default function AddContractPosition() {
                     </Map >
                 </Grid>
                 <Grid item xs={12}>
-                    <Button onClick={handleAddPosition} variant="contained">Add position</Button>
+                    <Button onClick={handleAddContract} variant="contained">Confirme</Button>
 
                 </Grid>
             </Grid>

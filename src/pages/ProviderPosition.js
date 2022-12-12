@@ -62,7 +62,7 @@ export default function ProviderPosition(props) {
 
       >
         <Marker longitude={parseFloat(provider.longitude)} latitude={parseFloat(provider.latitude)} anchor="bottom" >
-            <img style={{ width: '3.5vw', height: '4vh' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+            <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
         </Marker>
         <GeolocateControl />
         <NavigationControl />

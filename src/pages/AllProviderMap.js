@@ -61,16 +61,16 @@ export default function AllProviderMap(props) {
             >
                 {(props.prov) ? (props.prov.map(p =>
                     <Marker longitude={p.longitude} latitude={p.latitude} anchor="bottom" >
-                                  <img style={{ width: '3.5vw', height: '4vh' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+                                  <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
 
                     </Marker>
                 )) : (providers.map(p =>
                     <Marker longitude={p.longitude} latitude={p.latitude} anchor="bottom" >
-                                   <img style={{ width: '3.5vw', height: '4vh' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+                                   <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
 
                     </Marker>))}
                 {/* <Marker longitude={p.longitude} latitude={p.latitude} anchor="bottom" >
-                               <img style={{ width: '3.5vw', height: '4vh' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+                               <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
 
                 </Marker> */}
                 <GeolocateControl />

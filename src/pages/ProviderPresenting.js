@@ -3,16 +3,19 @@ import React from 'react'
 import axios from 'axios'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import SelectJob from '../comp/client/SelectJob';
 
 export default function ProviderPresenting(props) {
 
     const [isLoading, setLoading] = useState(true);
+    const [isLoading2, setLoading2] = useState(true);
+    const [jobs, setJobs] = useState(null);
     const [provider, setProvider] = useState();
     const location = useLocation();
     const p = location.state;
     console.log(p.id);
-    if(!p){
+    if (!p) {
         <Navigate to='/searchResult' />
     }
     useEffect(() => {
@@ -27,13 +30,28 @@ export default function ProviderPresenting(props) {
                 console.error(error);
             }
         }
+        function getJob() {
 
+            axios.get('http://localhost:8088/job/' + p.id + '/getAllJob')
+                .then((response) => {
+                    setJobs(response.data)
+                    console.log(response);
 
+                    setLoading2(false);
+                })
+
+                .catch((error) => {
+                    console.error(error);
+                    setLoading2(false);
+                })
+        }
+
+        getJob()
         getProvider();
     }, [isLoading]);
 
 
-    if (isLoading) {
+    if (isLoading && isLoading2) {
 
         return <div className="App"><CircularProgress /></div>;
     }
@@ -79,6 +97,18 @@ export default function ProviderPresenting(props) {
                                                     <h6 class="text-muted f-w-400">{provider.street}</h6>
                                                 </div>
                                             </div>
+                                            {(provider.description) ? (
+                                                <><h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Description</h6>
+                                                    <div class="row">
+
+                                                        <div class="col-sm-12">
+                                                            {/* <p class="m-b-10 f-w-600">Street</p> */}
+                                                            <h6 class="text-muted f-w-400">{provider.description}</h6>
+                                                        </div>
+                                                    </div></>
+                                            ) :
+                                                ('')}
+
 
                                         </div>
                                     </div>
@@ -93,40 +123,13 @@ export default function ProviderPresenting(props) {
                                 </p>
                             </div>
                             <div class="row mt-3 bodyyyy">
-                                <div class="col-lg-3 col-md-6 bodyyyy " style={{marginTop:'50px'}}>
-                                    <div class="carddd d-flex align-items-center justify-content-center">
-                                        <div class="ribon">
-                                            <span class="material-icons">
-                                                rocket
-                                            </span>
-                                        </div>
-                                        <ul class="mb-12 list-unstyled text-muted">
-                                            <li>
-                                                Bedrooms cleaning
-                                            </li>
-                                        </ul>
-                                        <div class="btn btn-primary">
-                                            get started
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6  bodyyyy"style={{marginTop:'50px'}}>
-                                    <div class="carddd d-flex align-items-center justify-content-center">
-                                        <div class="ribon">
-                                            <span class="material-icons">
-                                                rocket
-                                            </span>
-                                        </div>
-                                        <ul class="mb-12 list-unstyled text-muted">
-                                            <li>
-                                                Bedrooms cleaning
-                                            </li>
-                                        </ul>
-                                        <div class="btn btn-primary">
-                                            get started
-                                        </div>
-                                    </div>
-                                </div>
+                                {(jobs != null) ? (
+                                    jobs.map(jo =>
+                                        
+                                        <SelectJob pr={provider} jo={jo}/>
+                                    )
+                                ) : (<h1>no Jobs</h1>)}
+
                             </div>
                         </div>
                     </div>
