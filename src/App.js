@@ -14,7 +14,7 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import LoginProvider from './comp/auth/provider/LoginProvider';
 import SignupProvider from './comp/auth/provider/SignupProvider';
-import EditProfileClient from './pages/EditProfileClient';
+import EditProfileClient from './comp/client/EditProfileClient';
 import Nav from './comp/nav/Nav';
 import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 import SignUpTab from './pages/SignUpTab';

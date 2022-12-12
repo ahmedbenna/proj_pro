@@ -2,48 +2,40 @@ import { CssBaseline, Grid } from '@mui/material'
 import moment from 'moment';
 import React from 'react'
 import * as yup from "yup";
-import { Formik, useFormik } from 'formik';
+import { useFormik, Formik } from 'formik';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Navigate, Outlet } from 'react-router-dom'
 
 
 
-const idp = JSON.parse(localStorage.getItem('idp'))
+const idc = JSON.parse(localStorage.getItem('idc'))
 
-export default function EditProfileProvider() {
-
-    const [formData, setformData] = React.useState()
+export default function EditProfileClient() {
     const [passData, setPassData] = React.useState()
 
+    const [formData, setformData] = React.useState()
     const [isLoading, setLoading] = React.useState(true);
     const [minDate, setMinDate] = React.useState(moment(new Date()))
-    const [specialitys, setSpecialitys] = React.useState();
+
     const [citys, setCitys] = React.useState();
-    const [provider, setProvider] = React.useState({
+    const [client, setClient] = React.useState({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
         street: "",
         phone: "",
-        city: {
-            idSpeciality: 1
-        },
-        speciality: {
-            idSpeciality: 1
-        },
+        city: 2,
         birthday: moment(minDate).subtract(18, 'years').format("YYYY-MM-DD")
     });
 
 
     async function signup() {
         try {
-            const response = await axios.put('http://localhost:8088/provider/editProvider/' + idp.id, formData);
+            const response = await axios.put('http://localhost:8088/client/editClient/' + idc.id, formData);
             console.log(response);
-            <Navigate to='/providerProfile' />
         } catch (error) {
             console.error(error);
         }
@@ -51,7 +43,7 @@ export default function EditProfileProvider() {
 
     async function changePass() {
         try {
-            const response = await axios.put('http://localhost:8088/provider/editPassword/' + idp.id, passData);
+            const response = await axios.put('http://localhost:8088/provider/editPassword/' + idc.id, passData);
             console.log(response);
         } catch (error) {
             console.error(error);
@@ -65,43 +57,19 @@ export default function EditProfileProvider() {
                 const response = await axios.get('http://localhost:8088/city/getAllCity');
                 console.log(response);
                 setCitys(response.data);
-                // const res = await axios.get('http://localhost:8088/provider/getClient/'+idp.id);
-                // console.log(res);
-                // setProvideer(res.data);
-                // console.log("provider", provider);
+                const res = await axios.get('http://localhost:8088/client/getClient/' + idc.id);
+                console.log(res);
+                setClient(res.data);
+                console.log("client", client);
 
                 console.log("ccccc", citys);
+                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
         }
-        async function getSpeciality() {
-            try {
-                const response = await axios.get('http://localhost:8088/speciality/getAllSpeciality');
-                console.log(response);
-                setSpecialitys(response.data);
 
 
-
-                console.log("spec", specialitys);
-
-            } catch (error) {
-                console.error(error);
-            }
-            axios.get('http://localhost:8088/provider/getProvider/' + idp.id)
-                .then(res => {
-                    console.log(res);
-                    setProvider(res.data);
-                    setLoading(false);
-                    console.log("provider", provider);
-                })
-                .catch(err => {
-                    console.log("eeeeeee", err)
-                })
-        }
-
-
-        getSpeciality();
         getCity();
         console.log("sdf", moment(minDate).subtract(2, 'days').format("YYYY-MM-DD"))
     }, [isLoading]);
@@ -133,32 +101,7 @@ export default function EditProfileProvider() {
             .required('Obligatoire'),
 
     })
-   
 
-
-
-    // })
-    const FormikPass = useFormik({
-        initialValues: {
-            opassword: "",
-            npassword: "",
-            cpassword: "",
-        },
-        onSubmit: (values) => {
-            console.log("subbbb", values)
-            setPassData({
-                opassword: values.opassword,
-                npassword: values.npassword,
-                cpassword: values.cpassword
-            })
-            changePass();
-        },
-        validationSchema: validationSchema,
-        enableReinitialize: true
-
-
-
-    })
     if (isLoading) {
 
         return <div className="App"><CircularProgress /></div>;
@@ -167,7 +110,7 @@ export default function EditProfileProvider() {
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span class="font-weight-bold">{provider.firstName} {provider.lastName}</span><span class="text-black-50">{provider.email}</span><span> </span></div>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span class="font-weight-bold">{client.firstName} {client.lastName}</span><span class="text-black-50">{client.email}</span><span> </span></div>
                 </div>
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
@@ -179,21 +122,19 @@ export default function EditProfileProvider() {
                                 <Grid item>
                                     <Formik
                                         initialValues={{
-                                            firstName: provider.firstName,
-                                            lastName: provider.lastName,
-                                            email: provider.email,
-                                            street: provider.street,
-                                            phone: provider.phone,
-                                            city: provider.city.idCity,
-                                            speciality: provider.speciality.idSpeciality,
-                                            birthday: moment(provider.birthday).format("YYYY-MM-DD")
+                                            firstName: client.firstName,
+                                            lastName: client.lastName,
+                                            email: client.email,
+                                            street: client.street,
+                                            phone: client.phone,
+                                            city: client.city.idCity,
+                                            birthday: moment(client.birthday).format("YYYY-MM-DD")
                                         }}
 
                                         onSubmit={async (values) => {
-                                            await new Promise((r) => setTimeout(r, 500));
+                                            // await new Promise((r) => setTimeout(r, 500));
                                             setformData({
                                                 email: values.email,
-                                                passowrd: values.password,
                                                 firstName: values.firstName,
                                                 lastName: values.lastName,
                                                 phone: values.phone,
@@ -203,9 +144,6 @@ export default function EditProfileProvider() {
                                                 {
                                                     idCity: values.city
                                                 },
-                                                speciality: {
-                                                    idSpeciality: values.speciality
-                                                }
 
 
                                             });
@@ -217,7 +155,7 @@ export default function EditProfileProvider() {
                                         {props => (
 
 
-                                            <form onSubmit={props.handleSubmit} >                                        <Grid container justifyContent="center" spacing={2}>
+                                            <form onSubmit={props.handleSubmit} >                                         <Grid container justifyContent="center" spacing={2}>
                                                 <Grid item xs={12} sm={6} justifyContent="center">
                                                     <TextField
                                                         autoComplete="given-name"
@@ -318,27 +256,6 @@ export default function EditProfileProvider() {
                                                     </FormControl>
                                                 </Grid>
                                                 <Grid item xs={12}>
-                                                    <FormControl fullWidth>
-                                                        <InputLabel id="demo-simple-select-label">Speciality</InputLabel>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            label="speciality"
-                                                            name="speciality"
-                                                            value={props.values.speciality}
-                                                            onChange={props.handleChange}
-                                                        // id="speciality"
-
-                                                        // onChange={handleChange}
-                                                        >
-                                                            {specialitys.map(items =>
-                                                                <MenuItem key={items.idSpeciality} value={items.idSpeciality}>{items.label}</MenuItem>
-                                                            )}
-
-                                                        </Select>
-                                                    </FormControl>
-                                                </Grid>
-                                                <Grid item xs={12}>
                                                     <TextField
                                                         fullWidth
                                                         id="date"
@@ -353,7 +270,9 @@ export default function EditProfileProvider() {
                                                     // defaultValue={moment(minDate).subtract(18, 'years').format("YYYY-MM-DD")}
                                                     />
                                                 </Grid>
-
+                                                <Grid item>
+                                                    <CssBaseline />
+                                                </Grid>
 
                                             </Grid>
                                                 <Button
@@ -381,35 +300,19 @@ export default function EditProfileProvider() {
                         <div class="d-flex justify-content-between align-items-center experience"><span>Edit Password</span></div>
                         <Formik
                             initialValues={{
-                                firstName: provider.firstName,
-                                lastName: provider.lastName,
-                                email: provider.email,
-                                street: provider.street,
-                                phone: provider.phone,
-                                city: provider.city.idCity,
-                                speciality: provider.speciality.idSpeciality,
-                                birthday: moment(provider.birthday).format("YYYY-MM-DD")
+                                opassword: "",
+                                npassword: "",
+                                cpassword: "",
                             }}
 
                             onSubmit={async (values) => {
                                 await new Promise((r) => setTimeout(r, 500));
-                                setformData({
-                                    email: values.email,
-                                    passowrd: values.password,
-                                    firstName: values.firstName,
-                                    lastName: values.lastName,
-                                    phone: values.phone,
-                                    street: values.street,
-                                    birthday: values.birthday,
-                                    city:
-                                    {
-                                        idCity: values.city
-                                    },
-                                    speciality: {
-                                        idSpeciality: values.speciality
-                                    }
-                                });
-                                signup();
+                                setPassData({
+                                    opassword: values.opassword,
+                                    npassword: values.npassword,
+                                    cpassword: values.cpassword
+                                })
+                                changePass();
                             }}
                         >
                             {props => (
@@ -475,6 +378,6 @@ export default function EditProfileProvider() {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
