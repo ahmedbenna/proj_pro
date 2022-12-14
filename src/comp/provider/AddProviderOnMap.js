@@ -42,8 +42,8 @@ export default function AddProviderOnMap() {
 
         axios.put('http://localhost:8088/provider/editProvider/' + idp.id, provider)
             .then((res) => {
-                console.log("donnne",res)
-                // window.location.reload(false)
+                console.log("donnne", res)
+                window.location.reload(false)
                 if (res.data.latitude == null) {
                     axios.put('http://localhost:8088/provider/editProvider/' + idp.id, provider)
                 }
@@ -74,7 +74,7 @@ export default function AddProviderOnMap() {
 
                     >
                         <Marker longitude={viewport.longitude} latitude={viewport.latitude} anchor="bottom" >
-                        <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+                            <img style={{ width: '20px', height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
 
                         </Marker>
                         <GeolocateControl />
@@ -82,7 +82,20 @@ export default function AddProviderOnMap() {
                     </Map >
                 </Grid>
                 <Grid item xs={12}>
-                    <Button onClick={handleAddPosition} variant="contained">Add position</Button>
+                    <Button onClick={() => {
+                        setProvider({ ...provider, latitude: viewport.latitude.toString(), longitude: viewport.longitude.toString() })
+                        console.log("viwx", provider)
+
+                        axios.put('http://localhost:8088/provider/editProvider/' + idp.id, { ...provider, latitude: viewport.latitude.toString(), longitude: viewport.longitude.toString() })
+                            .then((res) => {
+                                console.log("donnne", res)
+                                window.location.reload(false)
+
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    }} variant="contained">Add position</Button>
 
                 </Grid>
             </Grid>

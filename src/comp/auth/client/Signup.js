@@ -32,9 +32,9 @@ export default function Signup() {
       const response = await axios.post('http://localhost:8088/client/signup', formData);
       console.log(response);
       localStorage.setItem('idc', JSON.stringify({ "id": response.data.id }))
-
-      window.location.reload(false)
+      window.location.replace("/")
     } catch (error) {
+
       console.error(error);
     }
   }
@@ -120,7 +120,7 @@ export default function Signup() {
       console.log("subbbb", values)
       setformData({
         email: values.email,
-        passowrd: values.password,
+        password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
@@ -131,8 +131,31 @@ export default function Signup() {
           idCity: values.city
         }
       })
-      signup();
-      signup();
+      axios.post('http://localhost:8088/client/signup', {
+        email: values.email,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phone: values.phone,
+        street: values.street,
+        birthday: values.birthday,
+        city:
+        {
+          idCity: values.city
+        }
+      })
+        .then(response => {
+          console.log(response);
+          localStorage.setItem('idc', JSON.stringify({ "id": response.data.id }))
+          window.location.replace("/")
+        })
+
+        .catch(error => {
+          console.error(error);
+        })
+
+
+
     },
     validationSchema: validationSchema
 
@@ -326,13 +349,13 @@ export default function Signup() {
               >
                 Sign Up
               </Button>
-              <GoogleLogin
+              {/* <GoogleLogin
                 clientId="109524746643-mf2lf4u0s5a8vbtdl8d2ffbp41aa9b19.apps.googleusercontent.com"
                 buttonText="Login"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
-              />
+              /> */}
               <Grid container >
                 <Grid item xs={12} justifyItems='flex-end'>
                   <Link to="/loginClient">

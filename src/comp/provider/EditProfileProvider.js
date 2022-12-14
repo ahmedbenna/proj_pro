@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Navigate, Outlet } from 'react-router-dom'
+import Avatar from '../../assets/img/avatar.png'
 
 
 
@@ -133,7 +134,7 @@ export default function EditProfileProvider() {
             .required('Obligatoire'),
 
     })
-   
+
 
 
 
@@ -167,7 +168,7 @@ export default function EditProfileProvider() {
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span class="font-weight-bold">{provider.firstName} {provider.lastName}</span><span class="text-black-50">{provider.email}</span><span> </span></div>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src={Avatar} /><span class="font-weight-bold">{provider.firstName} {provider.lastName}</span><span class="text-black-50">{provider.email}</span><span> </span></div>
                 </div>
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
@@ -209,8 +210,33 @@ export default function EditProfileProvider() {
 
 
                                             });
+                                            axios.put('http://localhost:8088/provider/editProvider/' + idp.id, {
+                                                email: values.email,
+                                                passowrd: values.password,
+                                                firstName: values.firstName,
+                                                lastName: values.lastName,
+                                                phone: values.phone,
+                                                street: values.street,
+                                                birthday: values.birthday,
+                                                city:
+                                                {
+                                                    idCity: values.city
+                                                },
+                                                speciality: {
+                                                    idSpeciality: values.speciality
+                                                }
 
-                                            signup();
+
+                                            })
+                                                .then(response => {
+                                                    console.log(response);
+                                                    window.location.replace("/providerProfile")
+                                                    // <Navigate to='/providerProfile' />
+                                                })
+                                                .catch(error => {
+                                                    console.error(error);
+                                                })
+                                            // signup();
                                         }}
 
                                     >
@@ -361,6 +387,7 @@ export default function EditProfileProvider() {
                                                     // fullWidth
                                                     variant="contained"
                                                     sx={{ mt: 3, mb: 2 }}
+
                                                 >
                                                     Save Profile
                                                 </Button>

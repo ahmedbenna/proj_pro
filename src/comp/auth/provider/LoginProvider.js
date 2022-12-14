@@ -23,17 +23,28 @@ const theme = createTheme();
 export default function LoginProvider() {
 
   const [formData, setformData] = React.useState()
+  const [l, setL] = React.useState(false)
 
-  async function auth() {
-    try {
-      const response = await axios.post('http://localhost:8088/provider/auth', formData);
-      console.log(response);
-      localStorage.setItem('idp', JSON.stringify({ "id": response.data.id }))
-      window.location('/')
-    } catch (error) {
-      console.error(error);
-    }
+
+  function auth() {
+    axios.post('http://localhost:8088/provider/auth', formData)
+      .then(res => {
+        console.log(res);
+        localStorage.setItem('idp', JSON.stringify({ "id": res.data.id }))
+        window.location.replace("/")
+      })
+
+      .catch(error => {
+        console.error(error)
+        if (error.response.status == 400) {
+          // auth()
+          setL(true)
+        }
+      }
+      )
+
   }
+
 
   const validationSchema = yup.object({
 
@@ -69,14 +80,31 @@ export default function LoginProvider() {
               email: "",
               password: "",
             }}
-            onSubmit={async (values) => {
-              console.log("f",formData)
-
+            onSubmit={(values) => {
+              console.log("f", formData)
+              setL(false)
               setformData({
                 email: values.email,
-                password: values.password,
+                password: values.password
               });
-              auth();
+              axios.post('http://localhost:8088/provider/auth', {
+                email: values.email,
+                password: values.password
+              })
+                .then(res => {
+                  console.log(res);
+                  localStorage.setItem('idp', JSON.stringify({ "id": res.data.id }))
+                  window.location.replace("/")
+                })
+
+                .catch(error => {
+                  console.error(error)
+                  if (error.response.status == 400) {
+                    // auth()
+                    setL(true)
+                  }
+                }
+                )
             }}
           >
             {props => (
@@ -114,6 +142,7 @@ export default function LoginProvider() {
 
                 <Button
                   type="submit"
+                  onClick={setL(true)}
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}

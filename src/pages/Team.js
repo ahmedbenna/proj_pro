@@ -1,151 +1,62 @@
 import React from 'react'
-
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom'
+import ProviderCard from '../comp/provider/ProviderCard'
+import axios from 'axios'
+import { useState } from 'react';
+import { CircularProgress } from '@mui/material';
 export default function Team() {
+
+  const [providers, setProviders] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getProvider() {
+      try {
+        const response = await axios.get('http://localhost:8088/provider/getAllProvider');
+        console.log(response);
+        var res = response.data.sort(({ feed: a }, { feed: b }) => b - a);
+        const first3 = res.slice(0, 20)
+        setProviders(first3);
+        console.log("ccccc", providers);
+        // setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getProvider();
+  }, [loading]);
   return (
     <>
       <div class="team">
         <div class="container">
           <div class="section-header text-center">
             <p>Our Team</p>
-            <h2>Meet Our Engineer</h2>
+            <h2>Meet Our Providers</h2>
           </div>
           <div class="row">
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-1.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Adam Phillips</h2>
-                  <p>CEO & Founder</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
+            {(providers) ? (
+
+              <div className="row">
+                {providers.map(p =>
+                  <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+
+                    <Link key={p.id} style={{ textDecoration: 'none' }} state={{ id: p.id }} to='/ProviderPresenting'>
+                      <ProviderCard speciality={p.speciality}firstName={p.firstName} lastName={p.lastName} />
+                    </Link>
+
+                  </div>
+                )}
+              </div>
+
+            ) : (
+              <div className="team">
+                <div className="container">
+                  <CircularProgress />
                 </div>
               </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-2.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Dylan Adams</h2>
-                  <p>Civil Engineer</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-3.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Jhon Doe</h2>
-                  <p>Interior Designer</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-4.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Josh Dunn</h2>
-                  <p>Painter</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-1.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Adam Phillips</h2>
-                  <p>CEO & Founder</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-2.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Dylan Adams</h2>
-                  <p>Civil Engineer</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-3.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Jhon Doe</h2>
-                  <p>Interior Designer</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-              <div class="team-item">
-                <div class="team-img">
-                  <img src="assets/img/team-4.jpg" alt="Team Image"/>
-                </div>
-                <div class="team-text">
-                  <h2>Josh Dunn</h2>
-                  <p>Painter</p>
-                </div>
-                <div class="team-social">
-                  <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
-                  <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
-                  <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
-                  <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-              </div>
-            </div>
+            )}
+            
           </div>
         </div>
       </div>

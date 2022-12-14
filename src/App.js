@@ -19,7 +19,7 @@ import Nav from './comp/nav/Nav';
 import ClientProtectedRoute from './comp/auth/client/ClientProtectedRoute';
 import SignUpTab from './pages/SignUpTab';
 import ClientProfile from './comp/client/ClientProfile';
-import ProviderPresenting from './pages/ProviderPresenting';
+import ProviderPresenting from './comp/provider/ProviderPresenting';
 import ProviderProtectedRoute from './comp/auth/provider/ProviderProtectedRoute';
 import ProviderProfile from './comp/provider/ProviderProfile';
 import EditProfileProvider from './comp/provider/EditProfileProvider';

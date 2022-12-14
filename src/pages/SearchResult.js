@@ -166,20 +166,23 @@ export default function SearchResult() {
                                     </div>
                                 </Grid>
                                 <Grid item xs={12} lg={6}>
+                                <Typography variant='body2' fullWidth id="ci">City</Typography>
                                     <Box
                                         display="flex"
                                         justifyContent="center"
                                         alignItems="center"
                                         backgroundColor="#ffffff"
                                     >
+                                        
+                                      
+
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
+                                            // labelId="ci"
+                                            // id="ci"
                                             value={city}
                                             label="City"
                                             onChange={(e) => { setCity(e.target.value) }}
-                                            // style={{ color: "#FFFFFF" }}
-                                            // sx={{ backgroundColor: '#ffffff' }}
+                                      
                                             fullWidth
                                             color="warning"
 
@@ -196,6 +199,7 @@ export default function SearchResult() {
 
                                 </Grid>
                                 <Grid item xs={12} lg={6}>
+                                <Typography variant='body2' fullWidth id="ci">Speciality</Typography>
                                     <Box
                                         display="flex"
                                         justifyContent="center"
@@ -203,7 +207,8 @@ export default function SearchResult() {
                                         backgroundColor="#ffffff"
                                     >
                                         <Select
-                                            labelId="demo-simple-select-label"
+
+                                            labelId="sp"
                                             id="demo-simple-select"
                                             value={speciality}
                                             label="Specilaity"
@@ -245,17 +250,20 @@ export default function SearchResult() {
                         </Box >
                     </div>
                     {/* <div class="row "> */}
-                    <AllProviderMap prov={result}/>
+                    <AllProviderMap id='res' prov={result} />
                     {/* </div> */}
 
 
-                    <div class="row " id='res'>
+                    <div class="row " >
                         {(result) != null ? (
 
                             result.map(r =>
-                                <Link state={{ id: r.id }} to='/ProviderPresenting'>
-                                    <ProviderCard firstName={r.firstName} lastName={r.lastName} />
-                                </Link>
+                                <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+
+                                    <Link state={{ id: r.id }} to='/ProviderPresenting'>
+                                        <ProviderCard speciality={r.speciality} firstName={r.firstName} lastName={r.lastName} />
+                                    </Link>
+                                </div>
                             )
 
                         ) : ('')}

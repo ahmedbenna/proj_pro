@@ -26,7 +26,7 @@ export default function NavGuest() {
             <div className="col-lg-8 col-md-7 d-none d-lg-block">
               <div className="row">
                 <div className="col-4">
-                  <div className="top-bar-item">
+                  {/* <div className="top-bar-item">
                     <div className="top-bar-icon">
                       <i className="flaticon-calendar"></i>
                     </div>
@@ -34,7 +34,7 @@ export default function NavGuest() {
                       <h3>Opening Hour</h3>
                       <p>Mon - Fri, 8:00 - 9:00</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="col-4">
                   <div className="top-bar-item">
@@ -43,7 +43,7 @@ export default function NavGuest() {
                     </div>
                     <div className="top-bar-text">
                       <h3>Call Us</h3>
-                      <p>+012 345 6789</p>
+                      <p>+216 34 586 789</p>
                     </div>
                   </div>
                 </div>

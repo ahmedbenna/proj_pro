@@ -12,6 +12,7 @@ import AddProviderOnMap from './AddProviderOnMap';
 import ProviderPosition from '../../pages/ProviderPosition';
 import AddDescription from './AddDescription';
 import moment from 'moment';
+import Avatar from '../../assets/img/avatar.png'
 
 const idp = JSON.parse(localStorage.getItem('idp'))
 
@@ -46,11 +47,11 @@ export default function ProviderProfile() {
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt="" />
-                            <div class="file btn btn-lg btn-primary">
+                            <img src={Avatar} alt="" />
+                            {/* <div class="file btn btn-lg btn-primary">
                                 Change Photo
                                 <input type="file" name="file" />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div class="col-md-6">

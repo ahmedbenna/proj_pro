@@ -7,135 +7,56 @@ import SearchBox from '../comp/Home/SearchBox'
 import ProviderCard from '../comp/provider/ProviderCard'
 import ServiceCard from '../comp/Services.js/ServiceCard'
 import axios from 'axios';
+import { CircularProgress } from '@mui/material'
 
 export default function Index() {
   const [specialitys, setSpecialitys] = useState();
-    const [citys, setCitys] = useState();
+  const [citys, setCitys] = useState();
+  const [providers, setProviders] = useState();
 
 
 
-    const [speciality, setSpeciality] = useState(null);
-    // const [city, setCity] = useState(null); 
-    const [loading, setLoading] = useState(true);
+  const [speciality, setSpeciality] = useState(null);
+  // const [city, setCity] = useState(null); 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
 
-    // async function getSpeciality() {
-    //     try {
-    //         const response = await axios.get('http://localhost:8088/speciality/getAllSpeciality');
-    //         console.log(response);
-    //         setSpecialitys(response.data);
-    //         console.log("ccccc", specialitys);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
+    async function getSpeciality() {
+      try {
+        const response = await axios.get('http://localhost:8088/speciality/getAllSpeciality');
+        console.log(response);
+        const first3 = response.data.slice(0, 4)
+        setSpecialitys(first3);
+        console.log("ccccc", specialitys);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    async function getProvider() {
+      try {
+        const response = await axios.get('http://localhost:8088/provider/getAllProvider');
+        console.log(response);
+        var res = response.data.sort(({ feed: a }, { feed: b }) => b - a);
+        const first3 = res.slice(0, 4)
+        setProviders(first3);
+        console.log("ccccc", providers);
+        // setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getProvider();
 
-    // async function getCity() {
-    //     try {
-    //         const response = await axios.get('http://localhost:8088/city/getAllCity');
-    //         console.log(response);
-    //         setCitys(response.data);
-    //         console.log("ccccc", citys);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-    // getCity();
-    // getSpeciality();
+
+
+
+    getSpeciality();
     console.log("city", specialitys)
-}, [loading]);
+  }, [loading]);
   return (
     <>
       <div className="wrapper">
-        {/* <!-- Top Bar Start --> */}
-        {/* <div className="top-bar">
-          <div className="container-fluid">
-            <div className="row align-items-center">
-              <div className="col-lg-4 col-md-12">
-                <div className="logo">
-                  <a href="index.html">
-                    <h1>Builderz</h1>
-                    <img src="assets/img/logo.jpg" alt="Logo" />
-                  </a>
-                </div>
-              </div>
-              <div className="col-lg-8 col-md-7 d-none d-lg-block">
-                <div className="row">
-                  <div className="col-4">
-                    <div className="top-bar-item">
-                      <div className="top-bar-icon">
-                        <i className="flaticon-calendar"></i>
-                      </div>
-                      <div className="top-bar-text">
-                        <h3>Opening Hour</h3>
-                        <p>Mon - Fri, 8:00 - 9:00</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div className="top-bar-item">
-                      <div className="top-bar-icon">
-                        <i className="flaticon-call"></i>
-                      </div>
-                      <div className="top-bar-text">
-                        <h3>Call Us</h3>
-                        <p>+012 345 6789</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div className="top-bar-item">
-                      <div className="top-bar-icon">
-                        <i className="flaticon-send-mail"></i>
-                      </div>
-                      <div className="top-bar-text">
-                        <h3>Email Us</h3>
-                        <p>info@example.com</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        {/* <!-- Top Bar End --> */}
-
-        {/* <!-- Nav Bar Start --> */}
-        {/* <div className="nav-bar">
-          <div className="container-fluid">
-            <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
-              <a href="#" className="navbar-brand">MENU</a>
-              <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span className="navbar-toggler-icon"></span>
-              </button>
-
-              <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div className="navbar-nav mr-auto">
-                  <a href="index.html" className="nav-item nav-link active">Home</a>
-                  <a href="about.html" className="nav-item nav-link">About</a>
-                  <a href="service.html" className="nav-item nav-link">Service</a>
-                  <a href="team.html" className="nav-item nav-link">Team</a>
-                  <a href="portfolio.html" className="nav-item nav-link">Project</a>
-                  <div className="nav-item dropdown">
-                    <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                    <div className="dropdown-menu">
-                      <a href="blog.html" className="dropdown-item">Blog Page</a>
-                      <a href="single.html" className="dropdown-item">Single Page</a>
-                    </div>
-                  </div>
-                  <a href="contact.html" className="nav-item nav-link">Contact</a>
-                </div>
-                <div className="ml-auto">
-                  <a className="btn" href="#">get a provider</a>
-                </div>
-              </div>
-            </nav>
-          </div>
-        </div> */}
-        {/* <!-- Nav Bar End --> */}
 
 
         {/* <!-- Carousel Start --> */}
@@ -318,65 +239,64 @@ export default function Index() {
 
 
         {/* <!-- Service Start --> */}
-        <div className="service">
-          <div className="container">
-            <div className="section-header text-center">
-              <p>Our Services</p>
-              <h2>We Provide Services</h2>
-            </div>
-            <div className="row">
-              <ServiceCard service="service type" description="description" />
-              <ServiceCard service="service type" description="description" />
-              <ServiceCard service="service type" description="description" />
-              <ServiceCard service="service type" description="description" />
-            </div>
-          </div>
-        </div>
-        {/* <!-- Service End --> */}
+        {(specialitys) ? (
+          <div className="service">
+            <div className="container">
+              <div className="section-header text-center">
+                <p>Our Services</p>
+                <h2>We Provide Services</h2>
+              </div>
+              <div className="row">
 
-
-        {/* <!-- Video Start --> */}
-        {/* <div className="video wow fadeIn" data-wow-delay="0.1s">
-          <div className="container">
-            <button type="button" className="btn-play" data-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">
-              <span></span>
-            </button>
-          </div>
-        </div>
-
-        <div className="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-body">
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <!-- 16:9 aspect ratio -->
-                <div className="embed-responsive embed-responsive-16by9">
-                  <iframe className="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
-                </div>
+                {specialitys.map(s =>
+                  <ServiceCard service={s.label} />
+                )}
               </div>
             </div>
           </div>
-        </div> */}
-        {/* <!-- Video End --> */}
+        ) : (
+          <div className="service">
+            <div className="container">
+              <CircularProgress />
+            </div>
+          </div>
+        )}
+
+        {/* <!-- Service End --> */}
+
+
+
 
 
         {/* <!-- Team Start --> */}
-        <div className="team">
-          <div className="container">
-            <div className="section-header text-center">
-              <p>Our Team</p>
-              <h2>Meet Our Providers</h2>
-            </div>
-            <div className="row">
-              <ProviderCard firstName="aaa" lastName="aafff" />
-              <ProviderCard firstName="ssss" lastName="fghj" />
-              <ProviderCard firstName="qsdfg" lastName="fghjkjn" />
-              <ProviderCard firstName="qftry" lastName="aaf45dgdsvff" />
+        {(providers) ? (
+          <div className="team">
+            <div className="container">
+              <div className="section-header text-center">
+                <p>Our Team</p>
+                <h2>Meet Our Providers</h2>
+              </div>
+              <div className="row">
+                {providers.map(p =>
+                  <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                   
+                      <Link key={p.id} style={{ textDecoration: 'none' }} state={{ id: p.id }} to='/ProviderPresenting'>
+                        <ProviderCard speciality={p.speciality} firstName={p.firstName} lastName={p.lastName} />
+                      </Link>
+                   
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="team">
+            <div className="container">
+              <CircularProgress />
+            </div>
+          </div>
+        )}
+
         {/* <!-- Team End --> */}
 
 
@@ -558,7 +478,7 @@ export default function Index() {
 
 
         {/* <!-- Footer Start --> */}
-        
+
 
         <a href="#" className="back-to-top"><i className="fa fa-chevron-up"></i></a>
       </div>

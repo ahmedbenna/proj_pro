@@ -27,27 +27,42 @@ export default function AddContractPosition(props) {
         setData({
             latitude: viewport.latitude,
             longitude: viewport.longitude,
-            provider:{
-                id:props.pr.id
+            provider: {
+                id: props.pr.id
             },
-            job:{
-                idJob:props.jo.idJob,
+            job: {
+                idJob: props.jo.idJob,
             },
-            client:{
-                id:idc.id
+            client: {
+                id: idc.id
             }
 
 
 
         })
 
-        axios.post('http://localhost:8088/contract/add/', data)
+        axios.post('http://localhost:8088/contract/add/', {
+            latitude: viewport.latitude,
+            longitude: viewport.longitude,
+            provider: {
+                id: props.pr.id
+            },
+            job: {
+                idJob: props.jo.idJob,
+            },
+            client: {
+                id: idc.id
+            }
+
+
+
+        })
             .then((res) => {
                 console.log(res)
-              window.location = '/clientProfile'
+                window.location = '/clientProfile'
             })
             .catch(err => {
-                
+
                 console.log(err)
             })
 

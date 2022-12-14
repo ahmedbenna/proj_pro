@@ -2,8 +2,11 @@ import { Button, CircularProgress } from "@mui/material";
 import React, { Component } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import Map, { GeolocateControl, Marker, NavigationControl, Popup } from 'react-map-gl';
+import Map, { GeolocateControl, Marker, NavigationControl, NavigsationControl, Popup } from 'react-map-gl';
 import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import ProviderElementOnMap from "../comp/provider/ProviderElementOnMap";
+
 export default function AllProviderMap(props) {
 
 
@@ -12,9 +15,10 @@ export default function AllProviderMap(props) {
     const [isLoading, setLoading] = React.useState(true);
     const [providers, setProviders] = React.useState();
     const [showPopup, setShowPopup] = React.useState(true);
+    const [selectProvider, setSelectedProvider] = useState(null);
     const [viewport, setViewport] = useState({
         latitude: 34.639103858274176,
-        longitude:  9.51784875479999,
+        longitude: 9.51784875479999,
         zoom: 5.5,
         width: window.innerWidth,
         height: window.innerHeight
@@ -60,19 +64,11 @@ export default function AllProviderMap(props) {
 
             >
                 {(props.prov) ? (props.prov.map(p =>
-                    <Marker longitude={p.longitude} latitude={p.latitude} anchor="bottom" >
-                                  <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
-
-                    </Marker>
+                    <ProviderElementOnMap p={p} />
                 )) : (providers.map(p =>
-                    <Marker longitude={p.longitude} latitude={p.latitude} anchor="bottom" >
-                                   <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
+                    <ProviderElementOnMap p={p} />
+                ))}
 
-                    </Marker>))}
-                {/* <Marker longitude={p.longitude} latitude={p.latitude} anchor="bottom" >
-                               <img style={{ width: '20px',  height: '25px' }} src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg" />
-
-                </Marker> */}
                 <GeolocateControl />
                 <NavigationControl />
             </Map >

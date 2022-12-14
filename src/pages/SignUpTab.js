@@ -96,9 +96,9 @@ export default function BasicTabs() {
                         </Box>
                     </Link>
                 </Grid>
-                <Grid item xs={12} >
+                {/* <Grid item xs={12} >
                     <Typography> Already have an account?</Typography>
-                </Grid>
+                </Grid> */}
 
 
             </Grid>

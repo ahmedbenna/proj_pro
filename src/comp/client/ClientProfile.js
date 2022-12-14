@@ -4,7 +4,8 @@ import { CircularProgress, Button } from '@mui/material';
 import axios from 'axios';
 import ClientContractsList from './ClientContractsList';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment';
+import Avatar from '../../assets/img/avatar.png'
 
 const idc = JSON.parse(localStorage.getItem('idc'))
 
@@ -39,11 +40,11 @@ export default function ClientProfile() {
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt="" />
-                            <div class="file btn btn-lg btn-primary">
+                            <img src={Avatar} alt="" />
+                            {/* <div class="file btn btn-lg btn-primary">
                                 Change Photo
                                 <input type="file" name="file" />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -124,12 +125,12 @@ export default function ClientProfile() {
                                         <label>Birthday</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{client.birthday}</p>
+                                    <p>{moment(client.birthday).format("dddd, MMMM Do YYYY")}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <Link tp='/searchResult'>
+                                <Link to='/searchResult'>
                                     <Button> search a provider</Button>
                                 </Link>
                                 <ClientContractsList />

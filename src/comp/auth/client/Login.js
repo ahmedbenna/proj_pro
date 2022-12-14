@@ -12,10 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom'
+import { Link, Navigate, Redirect } from 'react-router-dom'
 import { Formik } from 'formik';
 import * as yup from "yup";
 import axios from 'axios';
+
 
 
 const theme = createTheme();
@@ -29,8 +30,11 @@ export default function SignIn() {
       const response = await axios.post('http://localhost:8088/client/auth', formData);
       console.log(response);
       localStorage.setItem('idc', JSON.stringify({ "id": response.data.id }))
-      window.location('/')
+      window.location.replace("/")
     } catch (error) {
+      if (error.response.status == 400) {
+        auth()
+      }
       console.error(error);
     }
   }
@@ -71,10 +75,18 @@ export default function SignIn() {
             onSubmit={async (values) => {
               setformData({
                 email: values.email,
-                passowrd: values.password,
+                password: values.password,
               });
-              console.log("zzzzz" ,formData)
-              auth();
+              axios.post('http://localhost:8088/client/auth', {
+                email: values.email,
+                password: values.password,
+              })
+                .then(response => {
+                  console.log(response)
+                  localStorage.setItem('idc', JSON.stringify({ "id": response.data.id }))
+                  window.location.replace("/")
+                })
+                .catch(error => console.error(error))
             }}
           >
             {props => (
@@ -132,6 +144,6 @@ export default function SignIn() {
         </Box>
 
       </Container>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }

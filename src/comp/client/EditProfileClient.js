@@ -7,6 +7,7 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import Avatar from '../../assets/img/avatar.png'
 
 
 
@@ -110,7 +111,7 @@ export default function EditProfileClient() {
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span class="font-weight-bold">{client.firstName} {client.lastName}</span><span class="text-black-50">{client.email}</span><span> </span></div>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src={Avatar} /><span class="font-weight-bold">{client.firstName} {client.lastName}</span><span class="text-black-50">{client.email}</span><span> </span></div>
                 </div>
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
@@ -148,7 +149,28 @@ export default function EditProfileClient() {
 
                                             });
 
-                                            signup();
+                                            await axios.put('http://localhost:8088/client/editClient/' + idc.id, {
+                                                email: values.email,
+                                                firstName: values.firstName,
+                                                lastName: values.lastName,
+                                                phone: values.phone,
+                                                street: values.street,
+                                                birthday: values.birthday,
+                                                city:
+                                                {
+                                                    idCity: values.city
+                                                },
+
+
+                                            })
+                                                .then(response => {
+                                                    console.log(response)
+                                                    window.location.replace('/ClientProfile')
+                                                })
+
+                                                .catch(error => {
+                                                    console.error(error);
+                                                })
                                         }}
 
                                     >
@@ -378,6 +400,6 @@ export default function EditProfileClient() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

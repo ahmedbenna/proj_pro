@@ -36,21 +36,21 @@ export default function AddJob() {
             description: description
         })
 
-         function addJob() {
+        function addJob() {
             setLoading(true);
 
-           axios.post('http://localhost:8088/job/' + idp.id + '/add', data)
-           .then((response)=>{
-            window.location.reload(false)
-            setOpen(false)
-            console.log(response);
-            setLoading(false);
-           })     
-          
-             .catch ((error)=>{
-                console.error(error);
-                setLoading(false);
-            })
+            axios.post('http://localhost:8088/job/' + idp.id + '/add', data)
+                .then((response) => {
+                    window.location.reload(false)
+                    // setOpen(false)
+                    console.log(response);
+                    setLoading(false);
+                })
+
+                .catch((error) => {
+                    console.error(error);
+                    setLoading(false);
+                })
         }
 
         addJob()
@@ -71,36 +71,52 @@ export default function AddJob() {
                         {/* To subscribe to this website, please enter your email address here. We
                         will send updates occasionally. */}
                     </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="title"
-                        name="title"
-                        label="Title"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={title}
-                        onChange={(e) => { setTitle(e.target.value) }}
-                    />
-                    <TextField
-                        multiline
-                        rows={5}
-                        autoFocus
-                        margin="dense"
-                        name="description"
-                        id="description"
-                        label="Description"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={description}
-                        onChange={(e) => { setDescription(e.target.value) }}
-                    />
+                    {(loading) ?
+
+                        (<div className="App"><CircularProgress /></div>) : (
+                            <>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="title"
+                                    name="title"
+                                    label="Title"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={title}
+                                    onChange={(e) => { setTitle(e.target.value) }}
+                                />
+                                <TextField
+                                    multiline
+                                    rows={5}
+                                    autoFocus
+                                    margin="dense"
+                                    name="description"
+                                    id="description"
+                                    label="Description"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={description}
+                                    onChange={(e) => { setDescription(e.target.value) }}
+                                />
+                            </>
+                        )
+                    }
+
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleAdd}>Add</Button>
+                    {(loading) ? (
+                        <>
+                            <Button disabled={true} onClick={handleClose}>Cancel</Button>
+                            <Button disabled={true} onClick={handleAdd}>Add</Button>
+                        </>) : (
+                        <>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button onClick={handleAdd}>Add</Button>
+                            </>
+                    )}
                 </DialogActions>
             </Dialog>
         </div>

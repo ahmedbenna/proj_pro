@@ -34,8 +34,11 @@ export default function SignupProvider() {
             const response = await axios.post('http://localhost:8088/provider/signup', formData);
             console.log(response);
             localStorage.setItem('idp', JSON.stringify({ "id": response.data.id }))
-            window.location.reload(false)
+            window.location.replace("/")
         } catch (error) {
+            if (error.response.status == 400) {
+                signup()
+            }
             console.error(error);
         }
     }
@@ -111,7 +114,7 @@ export default function SignupProvider() {
         console.log(response);
     }
 
-    
+
 
     if (isLoading) {
 
@@ -131,7 +134,7 @@ export default function SignupProvider() {
                         alignItems: 'center',
                     }}
                 >
-                    
+
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
@@ -150,10 +153,10 @@ export default function SignupProvider() {
                                 birthday: moment(minDate).subtract(18, 'years').format("YYYY-MM-DD")
                             }}
                             onSubmit={async (values) => {
-                                await new Promise((r) => setTimeout(r, 500));
+                                // await new Promise((r) => setTimeout(r, 500));
                                 setformData({
                                     email: values.email,
-                                    passowrd: values.password,
+                                    password: values.password,
                                     firstName: values.firstName,
                                     lastName: values.lastName,
                                     phone: values.phone,
@@ -168,7 +171,35 @@ export default function SignupProvider() {
                                     }
 
                                 });
-                                signup();
+                                console.log('fffffff', formData)
+                                axios.post('http://localhost:8088/provider/signup', {
+                                    email: values.email,
+                                    password: values.password,
+                                    firstName: values.firstName,
+                                    lastName: values.lastName,
+                                    phone: values.phone,
+                                    street: values.street,
+                                    birthday: values.birthday,
+                                    city:
+                                    {
+                                        idCity: values.city
+                                    },
+                                    speciality: {
+                                        idSpeciality: values.speciality
+                                    }
+
+                                })
+                                    .then(response => {
+                                        console.log(response);
+                                        localStorage.setItem('idp', JSON.stringify({ "id": response.data.id }))
+                                        window.location.replace("/")
+                                    })
+                                    .catch(error => {
+                                        console.error(error);
+                                    })
+
+
+
                             }}
                         >
                             {props => (
@@ -352,13 +383,13 @@ export default function SignupProvider() {
                                     >
                                         Sign Up
                                     </Button>
-                                    <GoogleLogin
+                                    {/* <GoogleLogin
                                         clientId="109524746643-mf2lf4u0s5a8vbtdl8d2ffbp41aa9b19.apps.googleusercontent.com"
                                         buttonText="Login"
                                         onSuccess={responseGoogle}
                                         onFailure={responseGoogle}
                                         cookiePolicy={'single_host_origin'}
-                                    />
+                                    /> */}
                                     <Grid container justifyContent="flex-end">
                                         <Grid item>
                                             <Link to="/loginProvider">
